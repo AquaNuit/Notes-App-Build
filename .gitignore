@@ -1,0 +1,7 @@
+.build/
+.swiftdoc
+.swiftmodule
+Packages/
+GeneratedData/
+.DS_Store
+build_output/

@@ -1,0 +1,177 @@
+[01;34m/home/at/Desktop/App/[0m
+├── [01;34mdocs[0m
+│   ├── agent_handoff.md
+│   ├── api_reference.md
+│   ├── architecture.md
+│   ├── changelog.md
+│   ├── ci_ipad_setup.md
+│   ├── coding_guidelines.md
+│   ├── decisions.md
+│   ├── implementation_status.md
+│   ├── known_issues.md
+│   ├── module_index.md
+│   ├── roadmap.md
+│   └── testing_plan.md
+├── ExportOptions.plist
+├── [01;34mInscribe[0m
+│   ├── [01;34mApp[0m
+│   │   ├── [01;34mInscribeApp[0m
+│   │   │   └── InscribeApp.swift
+│   │   ├── [01;34mInscribeAppDelegate[0m
+│   │   └── [01;34mInscribeSceneDelegate[0m
+│   ├── [01;34mCanvas[0m
+│   │   ├── [01;34mBackgroundRenderer[0m
+│   │   │   └── BackgroundRenderer.swift
+│   │   ├── [01;34mInfiniteCanvas[0m
+│   │   │   ├── CanvasViewModel.swift
+│   │   │   └── InfiniteCanvasView.swift
+│   │   ├── [01;34mLayerManager[0m
+│   │   │   └── CanvasLayerManager.swift
+│   │   ├── [01;34mPanGestureHandler[0m
+│   │   │   └── CanvasPanController.swift
+│   │   └── [01;34mZoomManager[0m
+│   │       └── CanvasZoomController.swift
+│   ├── [01;34mComponents[0m
+│   │   ├── [01;34mColorPicker[0m
+│   │   ├── [01;34mEmptyState[0m
+│   │   ├── [01;34mInkWell[0m
+│   │   ├── [01;34mLoadingState[0m
+│   │   ├── [01;34mNotebookCell[0m
+│   │   ├── [01;34mPageThumbnail[0m
+│   │   ├── [01;34mPDFThumbnail[0m
+│   │   ├── [01;34mStrokeWidthSlider[0m
+│   │   └── [01;34mToolButton[0m
+│   ├── [01;34mCore[0m
+│   │   ├── [01;34mCoordinateSpace[0m
+│   │   │   ├── CanvasCoordinateSystem.swift
+│   │   │   └── PageCoordinateSystem.swift
+│   │   ├── [01;34mGeometry[0m
+│   │   │   ├── BezierPathBuilder.swift
+│   │   │   ├── InkPoint.swift
+│   │   │   ├── ShapeRecognizer.swift
+│   │   │   └── Stroke.swift
+│   │   ├── [01;34mPredictionEngine[0m
+│   │   │   ├── KalmanFilter.swift
+│   │   │   └── StrokePredictor.swift
+│   │   ├── [01;34mTouchEngine[0m
+│   │   │   ├── PalmRejectionFilter.swift
+│   │   │   ├── TouchCoalescer.swift
+│   │   │   ├── TouchEngine.swift
+│   │   │   └── TouchPredictor.swift
+│   │   └── [01;34mUndoManager[0m
+│   │       ├── UndoableAction.swift
+│   │       ├── UndoGroup.swift
+│   │       └── UndoManager.swift
+│   ├── [01;34mDocuments[0m
+│   │   ├── [01;34mNotebook[0m
+│   │   │   └── NotebookManager.swift
+│   │   ├── [01;34mPage[0m
+│   │   ├── [01;34mSection[0m
+│   │   ├── [01;34mSmartCollections[0m
+│   │   ├── [01;34mTagging[0m
+│   │   └── [01;34mTemplateSystem[0m
+│   ├── [01;34mExtensions[0m
+│   │   ├── [01;34mCGPoint+Extensions[0m
+│   │   ├── CGPoint+Extensions.swift
+│   │   ├── [01;34mCGRect+Extensions[0m
+│   │   ├── CGRect+Extensions.swift
+│   │   ├── [01;34mData+Extensions[0m
+│   │   ├── [01;34mDate+Extensions[0m
+│   │   ├── [01;34mUIColor+Extensions[0m
+│   │   ├── UIColor+Extensions.swift
+│   │   ├── [01;34mUIImage+Extensions[0m
+│   │   ├── UIImage+Extensions.swift
+│   │   └── [01;34mUIView+Extensions[0m
+│   ├── [01;34mPDF[0m
+│   │   ├── [01;34mPDFAnnotation[0m
+│   │   ├── [01;34mPDFExport[0m
+│   │   ├── [01;34mPDFImport[0m
+│   │   └── [01;34mPDFMergeSplit[0m
+│   ├── [01;34mPencil[0m
+│   │   ├── [01;34mHoverManager[0m
+│   │   │   └── HoverPreviewController.swift
+│   │   ├── [01;34mPencilInteraction[0m
+│   │   │   └── PencilInteractionController.swift
+│   │   ├── [01;34mPressureCurve[0m
+│   │   │   └── PressureCurveController.swift
+│   │   ├── [01;34mTiltHandler[0m
+│   │   │   └── TiltShadingEngine.swift
+│   │   └── [01;34mToolPickerCustomization[0m
+│   │       └── CustomToolProvider.swift
+│   ├── [01;34mRendering[0m
+│   │   ├── [01;34mBrushEngine[0m
+│   │   │   ├── BrushDefinition.swift
+│   │   │   └── BrushEngine.swift
+│   │   ├── [01;34mInkPipeline[0m
+│   │   │   ├── InkPipeline.swift
+│   │   │   ├── StrokeVertexGenerator.swift
+│   │   │   └── VariableWidthInk.swift
+│   │   ├── [01;34mMetalRenderer[0m
+│   │   │   ├── InkShaderTypes.h
+│   │   │   ├── MetalCanvasView.swift
+│   │   │   ├── MetalRenderer.swift
+│   │   │   └── Shaders.metal
+│   │   ├── [01;34mStrokeCache[0m
+│   │   │   └── StrokeCache.swift
+│   │   └── [01;34mTextureAtlas[0m
+│   ├── [01;34mResources[0m
+│   │   ├── [01;34mAssets.xcassets[0m
+│   │   ├── [01;34mFonts[0m
+│   │   ├── [01;34mLocalization[0m
+│   │   └── [01;34mTemplates[0m
+│   ├── [01;34mSearch[0m
+│   │   ├── [01;34mFullTextSearch[0m
+│   │   ├── [01;34mIndexManager[0m
+│   │   └── [01;34mOCRManager[0m
+│   ├── [01;34mSettings[0m
+│   │   ├── [01;34mAISettings[0m
+│   │   ├── [01;34mCloudSettings[0m
+│   │   ├── [01;34mPencilSettings[0m
+│   │   └── [01;34mPreferences[0m
+│   ├── [01;34mStorage[0m
+│   │   ├── [01;34mCacheManager[0m
+│   │   ├── [01;34mFileManager[0m
+│   │   │   └── StrokeFileManager.swift
+│   │   └── [01;34mSwiftDataModels[0m
+│   ├── [01;34mSync[0m
+│   │   ├── [01;34mBackgroundSync[0m
+│   │   ├── [01;34mCloudKitSync[0m
+│   │   ├── [01;34mConflictResolver[0m
+│   │   └── [01;34mStateMachine[0m
+│   ├── [01;34mUI[0m
+│   │   ├── [01;34mCanvasOverlay[0m
+│   │   ├── [01;34mInspectorPanel[0m
+│   │   ├── [01;34mModals[0m
+│   │   ├── [01;34mNotebookBrowser[0m
+│   │   │   └── NotebookGalleryView.swift
+│   │   ├── [01;34mSidebar[0m
+│   │   │   └── SidebarView.swift
+│   │   └── [01;34mToolPalette[0m
+│   │       └── FloatingToolPalette.swift
+│   └── [01;34mUtilities[0m
+│       ├── [01;34mBackgroundTaskManager[0m
+│       ├── [01;34mFileSizeFormatter[0m
+│       ├── [01;34mHapticManager[0m
+│       ├── HapticManager.swift
+│       ├── [01;34mLogger[0m
+│       ├── Logger.swift
+│       ├── [01;34mMemoryWarningHandler[0m
+│       ├── [01;34mPerformanceMonitor[0m
+│       └── PerformanceMonitor.swift
+├── [01;34mInscribeTests[0m
+│   ├── [01;34mIntegrationTests[0m
+│   ├── [01;34mPerformanceTests[0m
+│   └── [01;34mUnitTests[0m
+│       ├── [01;34mCore[0m
+│       │   ├── BezierPathBuilderTests.swift
+│       │   ├── InkPointTests.swift
+│       │   ├── ShapeRecognizerTests.swift
+│       │   ├── StrokeTests.swift
+│       │   └── UndoManagerTests.swift
+│       └── [01;34mStorage[0m
+│           └── StrokeFileManagerTests.swift
+├── [01;34mInscribeUITests[0m
+├── output_tree.txt
+└── Package.swift
+
+105 directories, 70 files

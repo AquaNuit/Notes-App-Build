@@ -1,0 +1,132 @@
+# Build Inscribe for iPad Testing
+# ================================
+# Run this workflow to produce a signed .ipa you can install on your iPad.
+#
+# Prerequisites (one-time setup on your Hackintosh):
+#   1. Open Package.swift in Xcode → let it resolve packages & schemes
+#   2. Sign in with your Apple ID (Xcode → Settings → Accounts)
+#   3. Register your iPad's UDID at:
+#      https://developer.apple.com/account/resources/devices/add
+#   4. Build for your iPad once from Xcode (Product → Build For → Running)
+#      This auto-generates the development provisioning profile
+#   5. Export the development certificate (.p12) via Keychain Access
+#   6. Find the provisioning profile in:
+#      ~/Library/MobileDevice/Provisioning\ Profiles/
+#   7. Update PRODUCT_BUNDLE_IDENTIFIER below to match your profile
+#   8. Update PROVISIONING_PROFILE_SPECIFIER to the exact profile name
+#   9. Replace YOUR_TEAM_ID in ExportOptions.plist
+#  10. Base64-encode cert+profile → add as GitHub secrets
+#
+# How to find your provisioning profile name:
+#   security cms -D -i ~/path/to/profile.mobileprovision | plutil -p - | grep Name
+#
+# Free account: development-signed apps expire in 7 days.
+# AltStore/SideStore can auto-refresh them wirelessly.
+
+name: Build for iPad
+
+on:
+  push:
+    branches: [main, develop]
+  workflow_dispatch:          # manual trigger from GitHub UI
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # ⚠️ CHANGE THIS to match your provisioning profile's bundle identifier
+  PRODUCT_BUNDLE_IDENTIFIER: com.yourname.InscribeApp
+  # ⚠️ CHANGE THIS to the exact name of your development provisioning profile
+  PROVISIONING_PROFILE_SPECIFIER: "iOS Team Provisioning Profile: com.yourname.InscribeApp"
+
+jobs:
+  build:
+    name: Build & Sign IPA
+    runs-on: macos-15
+    timeout-minutes: 30
+
+    steps:
+      # 1. Checkout
+      - uses: actions/checkout@v4
+
+      # 2. Select Xcode version (match your Hackintosh version if possible)
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer
+
+      # 3. Resolve SPM dependencies and generate schemes
+      #    (needed so xcodebuild can find the Inscribe scheme)
+      - name: Resolve Package Dependencies
+        run: swift package resolve
+
+      # 4. Install the provisioning profile into the runner's library
+      - name: Install Apple Provisioning Profile
+        env:
+          PROVISIONING_PROFILE_BASE64: ${{ secrets.IOS_PROVISIONING_PROFILE }}
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo -n "$PROVISIONING_PROFILE_BASE64" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/inscribe.mobileprovision
+          echo "Installed profile:"
+          security cms -D -i ~/Library/MobileDevice/Provisioning\ Profiles/inscribe.mobileprovision 2>/dev/null | plutil -p - | grep -E "Name|Entitlements" || echo "(could not inspect profile)"
+
+      # 5. Create a temporary keychain and import the development certificate
+      - name: Import Apple Development Certificate
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.IOS_DEV_CERTIFICATE }}
+          P12_PASSWORD: ${{ secrets.IOS_CERT_PASSWORD }}
+        run: |
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode > cert.p12
+
+          security create-keychain -p temp build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p temp build.keychain
+
+          security import cert.p12 -k build.keychain -P "$P12_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k temp build.keychain
+
+          rm cert.p12
+          echo "Certificate imported successfully"
+
+      # 6. Build and archive the app
+      #    SPM projects: xcodebuild auto-generates the Xcode project internally
+      - name: Archive App
+        run: |
+          xcodebuild archive \
+            -scheme Inscribe \
+            -destination 'generic/platform=iOS' \
+            -archivePath Inscribe \
+            -configuration Release \
+            -verbose \
+            PRODUCT_BUNDLE_IDENTIFIER="${{ env.PRODUCT_BUNDLE_IDENTIFIER }}" \
+            CODE_SIGN_STYLE=Manual \
+            PROVISIONING_PROFILE_SPECIFIER="${{ env.PROVISIONING_PROFILE_SPECIFIER }}" \
+            CODE_SIGN_IDENTITY="Apple Development" 2>&1 | tee xcodebuild_archive.log
+
+      # 7. Export the IPA from the archive
+      - name: Export IPA
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath Inscribe.xcarchive \
+            -exportPath InscribeOutput \
+            -exportOptionsPlist ExportOptions.plist
+
+      # 8. Upload the IPA as a downloadable artifact
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Inscribe-iPad
+          path: InscribeOutput/*.ipa
+          compression-level: 0   # IPA is already compressed
+
+      # 9. Show info about the output
+      - name: Inspect Output
+        run: |
+          echo "=== IPA files ==="
+          ls -lh InscribeOutput/ 2>/dev/null || echo "No IPA output found"
+
+          if [ -d "Inscribe.xcarchive" ]; then
+            echo "=== Archive Info ==="
+            plutil -p Inscribe.xcarchive/Info.plist 2>/dev/null | head -20 || echo "No archive Info.plist"
+            echo "=== Archive Size ==="
+            du -sh Inscribe.xcarchive/
+          fi

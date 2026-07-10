@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: macos-15
+    timeout-minutes: 30
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Select Xcode version
+      run: sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer
+
+    - name: List available simulators
+      run: xcrun simctl list devices available
+
+    - name: Build (Release)
+      run: |
+        xcodebuild build \
+          -scheme Inscribe \
+          -destination 'platform=iOS Simulator,name=iPad Pro 13-inch (M4),OS=18.0' \
+          -configuration Release \
+          CODE_SIGNING_ALLOWED=NO
+
+    - name: Run Unit Tests
+      run: |
+        xcodebuild test \
+          -scheme Inscribe \
+          -destination 'platform=iOS Simulator,name=iPad Pro 13-inch (M4),OS=18.0' \
+          -configuration Debug \
+          -only-testing:InscribeCoreTests \
+          -only-testing:InscribeStorageTests \
+          CODE_SIGNING_ALLOWED=NO
+
+    - name: SwiftLint
+      run: |
+        if command -v swiftlint &> /dev/null; then
+          swiftlint lint --strict
+        else
+          echo "SwiftLint not installed. Install with: brew install swiftlint"
+        fi
+
+    - name: Upload test artifacts
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-output
+        path: ~/Library/Developer/Xcode/DerivedData/**/Logs/Test/
