@@ -7,7 +7,7 @@ import OSLog
 ///
 /// Wraps Apple's os.log family with a clean, category-based API.
 /// Automatically disables debug logs in release builds.
-public struct InscribeLogger {
+public struct InscribeLogger: Sendable {
 
     public let subsystem: String
     public let category: String

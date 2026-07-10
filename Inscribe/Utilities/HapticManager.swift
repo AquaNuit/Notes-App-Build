@@ -8,7 +8,9 @@ import UIKit
 /// haptics and UIImpactFeedbackGenerator/UISelectionFeedbackGenerator for
 /// other UI interactions.
 @available(iOS 17.0, *)
+@MainActor
 public class HapticManager {
+
 
     public static let shared = HapticManager()
 
@@ -39,7 +41,17 @@ public class HapticManager {
     public func strokeCompleted() {
         guard isEnabled else { return }
         if #available(iOS 18.0, *) {
-            canvasFeedback?.strokeCompleted()
+            canvasFeedback?.strokeOccurred(at: .zero)
+        } else {
+            impactLight.impactOccurred(intensity: 0.5)
+        }
+    }
+
+    /// Trigger haptic on stroke completion at a specific point
+    public func strokeCompleted(at point: CGPoint) {
+        guard isEnabled else { return }
+        if #available(iOS 18.0, *) {
+            canvasFeedback?.strokeOccurred(at: point)
         } else {
             impactLight.impactOccurred(intensity: 0.5)
         }
@@ -49,7 +61,17 @@ public class HapticManager {
     public func snappedToGuide() {
         guard isEnabled else { return }
         if #available(iOS 18.0, *) {
-            canvasFeedback?.alignmentOccurred()
+            canvasFeedback?.alignmentOccurred(at: .zero)
+        } else {
+            selection.selectionChanged()
+        }
+    }
+
+    /// Trigger haptic when snapping to a guide at a specific point
+    public func snappedToGuide(at point: CGPoint) {
+        guard isEnabled else { return }
+        if #available(iOS 18.0, *) {
+            canvasFeedback?.alignmentOccurred(at: point)
         } else {
             selection.selectionChanged()
         }
@@ -99,7 +121,16 @@ public class HapticManager {
     public func shapeRecognized() {
         guard isEnabled else { return }
         if #available(iOS 18.0, *) {
-            canvasFeedback?.strokeCompleted()
+            canvasFeedback?.strokeOccurred(at: .zero)
+        } else {
+            notification.notificationOccurred(.success)
+        }
+    }
+
+    public func shapeRecognized(at point: CGPoint) {
+        guard isEnabled else { return }
+        if #available(iOS 18.0, *) {
+            canvasFeedback?.strokeOccurred(at: point)
         } else {
             notification.notificationOccurred(.success)
         }

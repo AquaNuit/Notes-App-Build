@@ -131,7 +131,7 @@ public class PerformanceMonitor {
         var totalCPU: Double = 0
         for i in 0..<Int(threadCount) {
             var threadInfo = thread_basic_info()
-            var count = mach_msg_type_number_t(THREAD_BASIC_INFO_COUNT)
+            var count = UInt32(MemoryLayout<thread_basic_info>.size / MemoryLayout<integer_t>.size)
 
             let kr = withUnsafeMutablePointer(to: &threadInfo) {
                 $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
