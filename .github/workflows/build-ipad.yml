@@ -1,10 +1,10 @@
-# Build Unsigned IPA for AltStore (iPad A16 · iPadOS 26)
-# ======================================================
+# Build Unsigned IPA for AltStore
+# ==================================
 # This workflow builds an unsigned .ipa that you can install on your
-# iPad A16 via AltStore — no Apple Developer Program ($99/year) needed.
+# iPad via AltStore — no Apple Developer Program ($99/year) needed.
 #
 # How it works:
-#   1. Builds the app on GitHub's macOS runner (Xcode 26, iPadOS 26 SDK)
+#   1. Builds the app on GitHub's macOS runner
 #   2. Strips all code signing (AltStore handles that on-device)
 #   3. Packages into a standard .ipa (Payload/InscribeApp.app → zip)
 #   4. Uploads as a downloadable artifact
@@ -38,36 +38,48 @@ jobs:
       # 1. Checkout
       - uses: actions/checkout@v4
 
-      # 2. Select Xcode 26 (required for iPadOS 26 SDK)
+      # 2. Select the latest available Xcode
       - name: Select Xcode
         run: |
-          for ver in "26.3" "26.2" "26.1.1" "26.0.1"; do
-            path="/Applications/Xcode_${ver}.app/Contents/Developer"
-            if [ -d "$path" ]; then
-              sudo xcode-select -s "$path"
-              echo "Selected Xcode ${ver}"
-              break
-            fi
-          done
+          # Find the latest Xcode available on the runner
+          LATEST=$(ls -d /Applications/Xcode*.app 2>/dev/null | sort -V | tail -1)
+          if [ -n "$LATEST" ]; then
+            sudo xcode-select -s "$LATEST/Contents/Developer"
+            echo "Selected Xcode: $(basename $LATEST)"
+          else
+            echo "No additional Xcode found, using default"
+          fi
           xcodebuild -version
 
       # 3. Resolve SPM dependencies
       - name: Resolve Package Dependencies
         run: swift package resolve
 
-      # 4. Build check — verify it compiles for iPad A16 / iPadOS 26
+      # 4. Build check — verify it compiles for the target platform
+      #    Uses an available iOS Simulator if present; skips gracefully if none.
       - name: Build Check (Simulator)
         continue-on-error: true
         run: |
+          # Find any available iOS Simulator device
+          DEVICE_ID=$(xcrun simctl list devices available 2>/dev/null | \
+            grep -E 'iPad|iPhone' | grep -v 'unavailable' | \
+            grep -oE '[0-9A-F-]{36}' | head -1)
+          if [ -z "$DEVICE_ID" ]; then
+            echo "No iOS Simulator available — skipping build check"
+            exit 0
+          fi
+          echo "Building for simulator: $(xcrun simctl list devices available 2>/dev/null | grep "$DEVICE_ID")"
           xcodebuild build \
             -scheme Inscribe \
-            -destination 'platform=iOS Simulator,name=iPad Air 13-inch (M3),OS=26.0' \
+            -destination "platform=iOS Simulator,id=$DEVICE_ID" \
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO 2>&1 | tee xcodebuild_sim_check.log
 
-      # 5. Archive the app (unsigned — AltStore handles signing)
+      # 5. Archive the app (unsigned — AltStore handles signing on-device)
       - name: Archive App (Unsigned)
         run: |
+          # pipefail ensures xcodebuild's exit code isn't swallowed by tee
+          set -o pipefail
           xcodebuild archive \
             -scheme Inscribe \
             -destination 'generic/platform=iOS' \
@@ -80,11 +92,13 @@ jobs:
       # 6. Package the .app into an unsigned .ipa
       - name: Package IPA
         run: |
-          # Find the .app inside the archive (handle any path variations)
-          APP_DIR=$(find unsigned.xcarchive/Products/Applications -name '*.app' -type d | head -1)
+          # Search recursively for the .app inside the archive (handles any
+          # internal directory structure variations across Xcode versions)
+          APP_DIR=$(find unsigned.xcarchive -name '*.app' -type d | head -1)
           if [ -z "$APP_DIR" ]; then
             echo "ERROR: No .app found in archive!"
-            ls -la unsigned.xcarchive/Products/Applications/ 2>/dev/null || echo "(directory missing)"
+            echo "Archive contents (first 3 levels):"
+            find unsigned.xcarchive -maxdepth 3 -type d 2>/dev/null || echo "(archive directory missing)"
             exit 1
           fi
           echo "Found app at: $APP_DIR"
