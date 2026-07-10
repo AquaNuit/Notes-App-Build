@@ -41,7 +41,7 @@ public class HapticManager {
     public func strokeCompleted() {
         guard isEnabled else { return }
         if #available(iOS 18.0, *) {
-            canvasFeedback?.strokeOccurred(at: .zero)
+            canvasFeedback?.pathCompleted(at: CGPoint.zero)
         } else {
             impactLight.impactOccurred(intensity: 0.5)
         }
@@ -51,7 +51,7 @@ public class HapticManager {
     public func strokeCompleted(at point: CGPoint) {
         guard isEnabled else { return }
         if #available(iOS 18.0, *) {
-            canvasFeedback?.strokeOccurred(at: point)
+            canvasFeedback?.pathCompleted(at: point)
         } else {
             impactLight.impactOccurred(intensity: 0.5)
         }
@@ -61,7 +61,7 @@ public class HapticManager {
     public func snappedToGuide() {
         guard isEnabled else { return }
         if #available(iOS 18.0, *) {
-            canvasFeedback?.alignmentOccurred(at: .zero)
+            canvasFeedback?.alignmentOccurred(at: CGPoint.zero)
         } else {
             selection.selectionChanged()
         }
@@ -121,7 +121,7 @@ public class HapticManager {
     public func shapeRecognized() {
         guard isEnabled else { return }
         if #available(iOS 18.0, *) {
-            canvasFeedback?.strokeOccurred(at: .zero)
+            canvasFeedback?.pathCompleted(at: CGPoint.zero)
         } else {
             notification.notificationOccurred(.success)
         }
@@ -130,7 +130,7 @@ public class HapticManager {
     public func shapeRecognized(at point: CGPoint) {
         guard isEnabled else { return }
         if #available(iOS 18.0, *) {
-            canvasFeedback?.strokeOccurred(at: point)
+            canvasFeedback?.pathCompleted(at: point)
         } else {
             notification.notificationOccurred(.success)
         }

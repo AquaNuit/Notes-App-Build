@@ -16,6 +16,7 @@ public struct PerformanceMetrics: Sendable {
 // MARK: - PerformanceMonitor
 
 /// Monitors app performance including FPS, memory, and CPU usage.
+@MainActor
 public class PerformanceMonitor {
 
     public var isEnabled: Bool = false
