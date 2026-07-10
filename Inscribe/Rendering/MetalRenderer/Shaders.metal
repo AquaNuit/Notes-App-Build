@@ -33,17 +33,17 @@ vertex InkVertexOut inkVertexShader(
     constant FrameUniforms &frame [[buffer(1)]],
     unsigned int vertexID [[vertex_id]]
 ) {
-    InkVertex vertex = vertices[vertexID];
+    InkVertex inVertex = vertices[vertexID];
 
     // Transform position from canvas space to clip space
-    float4 clipPosition = float4(vertex.position, 0.0, 1.0);
+    float4 clipPosition = float4(inVertex.position, 0.0, 1.0);
     clipPosition = frame.viewProjectionMatrix * clipPosition;
 
     InkVertexOut out;
     out.position = clipPosition;
-    out.textureCoordinate = vertex.textureCoordinate;
-    out.alpha = vertex.alpha;
-    out.width = vertex.width;
+    out.textureCoordinate = inVertex.textureCoordinate;
+    out.alpha = inVertex.alpha;
+    out.width = inVertex.width;
 
     return out;
 }
