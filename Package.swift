@@ -37,20 +37,8 @@ let package = Package(
             targets: ["InscribeDocuments"]
         ),
         .library(
-            name: "InscribePDF",
-            targets: ["InscribePDF"]
-        ),
-        .library(
             name: "InscribeStorage",
             targets: ["InscribeStorage"]
-        ),
-        .library(
-            name: "InscribeSync",
-            targets: ["InscribeSync"]
-        ),
-        .library(
-            name: "InscribeSearch",
-            targets: ["InscribeSearch"]
         ),
         .library(
             name: "InscribeUI",
@@ -76,10 +64,7 @@ let package = Package(
                 "InscribeRendering",
                 "InscribePencil",
                 "InscribeDocuments",
-                "InscribePDF",
                 "InscribeStorage",
-                "InscribeSync",
-                "InscribeSearch",
                 "InscribeUI",
                 "InscribeUtilities",
             ],
@@ -138,18 +123,7 @@ let package = Package(
             ],
             path: "Inscribe/Documents"
         ),
-        
-        // MARK: - PDF Module
-        .target(
-            name: "InscribePDF",
-            dependencies: [
-                "InscribeCore",
-                "InscribeCanvas",
-                "InscribeRendering",
-            ],
-            path: "Inscribe/PDF"
-        ),
-        
+
         // MARK: - Storage Module
         .target(
             name: "InscribeStorage",
@@ -158,28 +132,7 @@ let package = Package(
             ],
             path: "Inscribe/Storage"
         ),
-        
-        // MARK: - Sync Module
-        .target(
-            name: "InscribeSync",
-            dependencies: [
-                "InscribeCore",
-                "InscribeStorage",
-                "InscribeDocuments",
-            ],
-            path: "Inscribe/Sync"
-        ),
-        
-        // MARK: - Search Module
-        .target(
-            name: "InscribeSearch",
-            dependencies: [
-                "InscribeCore",
-                "InscribeDocuments",
-            ],
-            path: "Inscribe/Search"
-        ),
-        
+
         // MARK: - UI Module
         .target(
             name: "InscribeUI",
@@ -187,31 +140,10 @@ let package = Package(
                 "InscribeCore",
                 "InscribeCanvas",
                 "InscribeDocuments",
-                "InscribePDF",
-                "InscribeComponents",
             ],
             path: "Inscribe/UI"
         ),
-        
-        // MARK: - Components Module
-        .target(
-            name: "InscribeComponents",
-            dependencies: [
-                "InscribeCore",
-            ],
-            path: "Inscribe/Components"
-        ),
-        
-        // MARK: - Settings Module
-        .target(
-            name: "InscribeSettings",
-            dependencies: [
-                "InscribeCore",
-                "InscribeSync",
-            ],
-            path: "Inscribe/Settings"
-        ),
-        
+
         // MARK: - Extensions Module
         .target(
             name: "InscribeExtensions",
@@ -233,24 +165,9 @@ let package = Package(
             path: "InscribeTests/UnitTests/Core"
         ),
         .testTarget(
-            name: "InscribeCanvasTests",
-            dependencies: ["InscribeCanvas"],
-            path: "InscribeTests/UnitTests/Canvas"
-        ),
-        .testTarget(
-            name: "InscribeRenderingTests",
-            dependencies: ["InscribeRendering"],
-            path: "InscribeTests/UnitTests/Rendering"
-        ),
-        .testTarget(
             name: "InscribeStorageTests",
             dependencies: ["InscribeStorage"],
             path: "InscribeTests/UnitTests/Storage"
-        ),
-        .testTarget(
-            name: "InscribeDocumentsTests",
-            dependencies: ["InscribeDocuments"],
-            path: "InscribeTests/UnitTests/Documents"
         ),
     ]
 )
