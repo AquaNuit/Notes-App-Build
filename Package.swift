@@ -68,10 +68,7 @@ let package = Package(
                 "InscribeUI",
                 "InscribeUtilities",
             ],
-            path: "Inscribe/App",
-            resources: [
-                .process("../../Inscribe/Resources")
-            ]
+            path: "Inscribe/App"
         ),
         
         // MARK: - Core Module
@@ -99,10 +96,7 @@ let package = Package(
                 "InscribeCore",
                 "InscribePencil",
             ],
-            path: "Inscribe/Rendering",
-            resources: [
-                .process("Shaders.metal")
-            ]
+            path: "Inscribe/Rendering"
         ),
         
         // MARK: - Pencil Module
