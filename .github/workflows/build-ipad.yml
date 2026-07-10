@@ -1,29 +1,23 @@
-# Build Inscribe for iPad Testing
-# ================================
-# Run this workflow to produce a signed .ipa you can install on your iPad.
+# Build Unsigned IPA for AltStore (iPad A16 · iPadOS 26)
+# ======================================================
+# This workflow builds an unsigned .ipa that you can install on your
+# iPad A16 via AltStore — no Apple Developer Program ($99/year) needed.
 #
-# Prerequisites (one-time setup on your Hackintosh):
-#   1. Open Package.swift in Xcode → let it resolve packages & schemes
-#   2. Sign in with your Apple ID (Xcode → Settings → Accounts)
-#   3. Register your iPad's UDID at:
-#      https://developer.apple.com/account/resources/devices/add
-#   4. Build for your iPad once from Xcode (Product → Build For → Running)
-#      This auto-generates the development provisioning profile
-#   5. Export the development certificate (.p12) via Keychain Access
-#   6. Find the provisioning profile in:
-#      ~/Library/MobileDevice/Provisioning\ Profiles/
-#   7. Update PRODUCT_BUNDLE_IDENTIFIER below to match your profile
-#   8. Update PROVISIONING_PROFILE_SPECIFIER to the exact profile name
-#   9. Replace YOUR_TEAM_ID in ExportOptions.plist
-#  10. Base64-encode cert+profile → add as GitHub secrets
+# How it works:
+#   1. Builds the app on GitHub's macOS runner (Xcode 26, iPadOS 26 SDK)
+#   2. Strips all code signing (AltStore handles that on-device)
+#   3. Packages into a standard .ipa (Payload/InscribeApp.app → zip)
+#   4. Uploads as a downloadable artifact
 #
-# How to find your provisioning profile name:
-#   security cms -D -i ~/path/to/profile.mobileprovision | plutil -p - | grep Name
+# Installation:
+#   1. Download the .ipa from GitHub Actions → Artifacts
+#   2. Send it to your iPad (AirDrop, iCloud, etc.)
+#   3. Open AltStore → My Apps → + → select the .ipa
+#   4. AltStore signs and installs it using your free Apple ID
 #
-# Free account: development-signed apps expire in 7 days.
-# AltStore/SideStore can auto-refresh them wirelessly.
+# No certificates, no provisioning profiles, no secrets required.
 
-name: Build for iPad
+name: 🏗️ Build Unsigned IPA (AltStore)
 
 on:
   push:
@@ -34,15 +28,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  # ⚠️ CHANGE THIS to match your provisioning profile's bundle identifier
-  PRODUCT_BUNDLE_IDENTIFIER: com.yourname.InscribeApp
-  # ⚠️ CHANGE THIS to the exact name of your development provisioning profile
-  PROVISIONING_PROFILE_SPECIFIER: "iOS Team Provisioning Profile: com.yourname.InscribeApp"
-
 jobs:
   build:
-    name: Build & Sign IPA
+    name: Build Unsigned IPA
     runs-on: macos-15
     timeout-minutes: 30
 
@@ -50,83 +38,81 @@ jobs:
       # 1. Checkout
       - uses: actions/checkout@v4
 
-      # 2. Select Xcode version (match your Hackintosh version if possible)
+      # 2. Select Xcode 26 (required for iPadOS 26 SDK)
       - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer
+        run: |
+          for ver in "26.3" "26.2" "26.1.1" "26.0.1"; do
+            path="/Applications/Xcode_${ver}.app/Contents/Developer"
+            if [ -d "$path" ]; then
+              sudo xcode-select -s "$path"
+              echo "Selected Xcode ${ver}"
+              break
+            fi
+          done
+          xcodebuild -version
 
-      # 3. Resolve SPM dependencies and generate schemes
-      #    (needed so xcodebuild can find the Inscribe scheme)
+      # 3. Resolve SPM dependencies
       - name: Resolve Package Dependencies
         run: swift package resolve
 
-      # 4. Install the provisioning profile into the runner's library
-      - name: Install Apple Provisioning Profile
-        env:
-          PROVISIONING_PROFILE_BASE64: ${{ secrets.IOS_PROVISIONING_PROFILE }}
+      # 4. Build check — verify it compiles for iPad A16 / iPadOS 26
+      - name: Build Check (Simulator)
+        continue-on-error: true
         run: |
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          echo -n "$PROVISIONING_PROFILE_BASE64" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/inscribe.mobileprovision
-          echo "Installed profile:"
-          security cms -D -i ~/Library/MobileDevice/Provisioning\ Profiles/inscribe.mobileprovision 2>/dev/null | plutil -p - | grep -E "Name|Entitlements" || echo "(could not inspect profile)"
+          xcodebuild build \
+            -scheme Inscribe \
+            -destination 'platform=iOS Simulator,name=iPad Air 13-inch (M3),OS=26.0' \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO 2>&1 | tee xcodebuild_sim_check.log
 
-      # 5. Create a temporary keychain and import the development certificate
-      - name: Import Apple Development Certificate
-        env:
-          BUILD_CERTIFICATE_BASE64: ${{ secrets.IOS_DEV_CERTIFICATE }}
-          P12_PASSWORD: ${{ secrets.IOS_CERT_PASSWORD }}
-        run: |
-          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode > cert.p12
-
-          security create-keychain -p temp build.keychain
-          security default-keychain -s build.keychain
-          security unlock-keychain -p temp build.keychain
-
-          security import cert.p12 -k build.keychain -P "$P12_PASSWORD" -T /usr/bin/codesign
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k temp build.keychain
-
-          rm cert.p12
-          echo "Certificate imported successfully"
-
-      # 6. Build and archive the app
-      #    SPM projects: xcodebuild auto-generates the Xcode project internally
-      - name: Archive App
+      # 5. Archive the app (unsigned — AltStore handles signing)
+      - name: Archive App (Unsigned)
         run: |
           xcodebuild archive \
             -scheme Inscribe \
             -destination 'generic/platform=iOS' \
-            -archivePath Inscribe \
+            -archivePath unsigned \
             -configuration Release \
-            -verbose \
-            PRODUCT_BUNDLE_IDENTIFIER="${{ env.PRODUCT_BUNDLE_IDENTIFIER }}" \
-            CODE_SIGN_STYLE=Manual \
-            PROVISIONING_PROFILE_SPECIFIER="${{ env.PROVISIONING_PROFILE_SPECIFIER }}" \
-            CODE_SIGN_IDENTITY="Apple Development" 2>&1 | tee xcodebuild_archive.log
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO 2>&1 | tee xcodebuild_archive.log
 
-      # 7. Export the IPA from the archive
-      - name: Export IPA
+      # 6. Package the .app into an unsigned .ipa
+      - name: Package IPA
         run: |
-          xcodebuild -exportArchive \
-            -archivePath Inscribe.xcarchive \
-            -exportPath InscribeOutput \
-            -exportOptionsPlist ExportOptions.plist
+          # Find the .app inside the archive (handle any path variations)
+          APP_DIR=$(find unsigned.xcarchive/Products/Applications -name '*.app' -type d | head -1)
+          if [ -z "$APP_DIR" ]; then
+            echo "ERROR: No .app found in archive!"
+            ls -la unsigned.xcarchive/Products/Applications/ 2>/dev/null || echo "(directory missing)"
+            exit 1
+          fi
+          echo "Found app at: $APP_DIR"
+          mkdir -p Payload
+          cp -R "$APP_DIR" Payload/
+          zip -r Inscribe.ipa Payload/
+          rm -rf Payload
+          echo "=== IPA contents ==="
+          unzip -l Inscribe.ipa | head -20
 
-      # 8. Upload the IPA as a downloadable artifact
+      # 7. Upload the IPA as a downloadable artifact
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Inscribe-iPad
-          path: InscribeOutput/*.ipa
+          name: Inscribe-Unsigned
+          path: Inscribe.ipa
           compression-level: 0   # IPA is already compressed
 
-      # 9. Show info about the output
+      # 8. Show build info
       - name: Inspect Output
         run: |
-          echo "=== IPA files ==="
-          ls -lh InscribeOutput/ 2>/dev/null || echo "No IPA output found"
+          ls -lh Inscribe.ipa
 
-          if [ -d "Inscribe.xcarchive" ]; then
+          if [ -d "unsigned.xcarchive" ]; then
             echo "=== Archive Info ==="
-            plutil -p Inscribe.xcarchive/Info.plist 2>/dev/null | head -20 || echo "No archive Info.plist"
+            plutil -p unsigned.xcarchive/Info.plist 2>/dev/null | head -20 || true
+            echo "=== Archive SDK ==="
+            plutil -p unsigned.xcarchive/Info.plist 2>/dev/null | grep -i -E "SDK|sdk|os" || true
             echo "=== Archive Size ==="
-            du -sh Inscribe.xcarchive/
+            du -sh unsigned.xcarchive/
           fi
