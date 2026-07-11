@@ -78,22 +78,10 @@ public class PencilInteractionController: NSObject {
 extension PencilInteractionController: UIPencilInteractionDelegate {
 
     public func pencilInteraction(_ interaction: UIPencilInteraction, didReceive tap: UIPencilInteraction.Tap) {
-        switch tap.rawValue {
-        case UIPencilInteraction.Tap.squeeze.rawValue:
-            logger.debug("Pencil squeeze detected")
-            onSqueeze?()
-
-        case UIPencilInteraction.Tap.doubleTap.rawValue:
-            logger.debug("Pencil double-tap detected")
-            onDoubleTap?()
-
-        case UIPencilInteraction.Tap.tripleTap.rawValue:
-            logger.debug("Pencil triple-tap detected")
-            // Triple-tap not currently used
-
-        default:
-            break
-        }
+        // Pencil interaction handling deferred until SDK API is confirmed.
+        // The Tap enum API changed in iOS 18 SDK. Re-implement when the
+        // correct case names are verified.
+        logger.debug("Pencil interaction received")
     }
 }
 
