@@ -114,6 +114,7 @@ let package = Package(
             dependencies: [
                 "InscribeCore",
                 "InscribeStorage",
+                "InscribeCanvas",
             ],
             path: "Inscribe/Documents"
         ),

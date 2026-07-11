@@ -1,5 +1,7 @@
 import Foundation
 import OSLog
+import InscribeCore
+import InscribeCanvas
 
 // MARK: - NotebookManager
 
@@ -10,7 +12,7 @@ import OSLog
 /// SwiftData persistence will be added in a future sprint.
 public class NotebookManager {
 
-    public static let shared = NotebookManager()
+    nonisolated(unsafe) public static let shared = NotebookManager()
 
     private var notebooks: [NotebookModel] = []
     private let logger = Logger(subsystem: "com.inscribe.documents", category: "NotebookManager")
