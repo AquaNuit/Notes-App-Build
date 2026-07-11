@@ -12,6 +12,7 @@ import UIKit
 /// - **Predicted touches**: Estimated future points to reduce perceived latency
 ///
 /// This class merges these touch types into a single ordered stream for the stroke builder.
+@MainActor
 public class TouchCoalescer {
 
     public var includeCoalesced: Bool = true
