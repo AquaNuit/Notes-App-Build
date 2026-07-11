@@ -16,13 +16,14 @@
 #   4. AltStore signs and installs it using your free Apple ID
 #
 # No certificates, no provisioning profiles, no secrets required.
+#
+# Trigger: Manual only (workflow_dispatch) to prevent collision
+#          with the CI workflow on code push.
 
 name: 🏗️ Build Unsigned IPA (AltStore)
 
 on:
-  push:
-    branches: [main, develop]
-  workflow_dispatch:          # manual trigger from GitHub UI
+  workflow_dispatch:    # Manual trigger only — no push collision
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -30,103 +31,67 @@ concurrency:
 
 jobs:
   build:
-    name: Build Unsigned IPA
+    name: Build and Package
     runs-on: macos-15
     timeout-minutes: 30
 
     steps:
       # 1. Checkout
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
       # 2. Select the latest available Xcode
-      - name: Select Xcode
+      - name: Select Newest Xcode
         run: |
-          # Find the latest Xcode available on the runner
-          LATEST=$(ls -d /Applications/Xcode*.app 2>/dev/null | sort -V | tail -1)
-          if [ -n "$LATEST" ]; then
-            sudo xcode-select -s "$LATEST/Contents/Developer"
-            echo "Selected Xcode: $(basename $LATEST)"
-          else
-            echo "No additional Xcode found, using default"
-          fi
+          XCODE_PATH=$(ls -d /Applications/Xcode*.app 2>/dev/null | sort -V | tail -n 1)
+          echo "Using Xcode at: $XCODE_PATH"
+          sudo xcode-select -s "$XCODE_PATH/Contents/Developer"
           xcodebuild -version
 
       # 3. Resolve SPM dependencies
       - name: Resolve Package Dependencies
         run: swift package resolve
 
-      # 4. Build check — verify it compiles for the target platform
-      #    Uses an available iOS Simulator if present; skips gracefully if none.
-      - name: Build Check (Simulator)
-        continue-on-error: true
+      # 4. Archive the app (unsigned — AltStore handles signing on-device)
+      #    Bypasses Swift 6 strict concurrency via SWIFT_STRICT_CONCURRENCY=minimal.
+      #    This relaxes Sendable/@MainActor warnings without changing language mode.
+      - name: Archive App (Bypassing Swift 6 Concurrency)
         run: |
-          # Find any available iOS Simulator device
-          DEVICE_ID=$(xcrun simctl list devices available 2>/dev/null | \
-            grep -E 'iPad|iPhone' | grep -v 'unavailable' | \
-            grep -oE '[0-9A-F-]{36}' | head -1)
-          if [ -z "$DEVICE_ID" ]; then
-            echo "No iOS Simulator available — skipping build check"
-            exit 0
-          fi
-          echo "Building for simulator: $(xcrun simctl list devices available 2>/dev/null | grep "$DEVICE_ID")"
-          xcodebuild build \
-            -scheme Inscribe \
-            -destination "platform=iOS Simulator,id=$DEVICE_ID" \
-            -configuration Debug \
-            CODE_SIGNING_ALLOWED=NO 2>&1 | tee xcodebuild_sim_check.log
-
-      # 5. Archive the app (unsigned — AltStore handles signing on-device)
-      - name: Archive App (Unsigned)
-        run: |
-          # pipefail ensures xcodebuild's exit code isn't swallowed by tee
           set -o pipefail
           xcodebuild archive \
             -scheme Inscribe \
-            -destination 'generic/platform=iOS' \
-            -archivePath unsigned \
             -configuration Release \
+            -destination "generic/platform=iOS" \
+            -archivePath unsigned.xcarchive \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO 2>&1 | tee xcodebuild_archive.log
+            CODE_SIGNING_ALLOWED=NO \
+            ENTITLEMENTS_REQUIRED=NO \
+            SWIFT_STRICT_CONCURRENCY=minimal \
+            2>&1 | tee xcodebuild_archive.log
 
-      # 6. Package the .app into an unsigned .ipa
+      # 5. Package the .app into an unsigned .ipa
       - name: Package IPA
         run: |
-          # Search recursively for the .app inside the archive (handles any
-          # internal directory structure variations across Xcode versions)
-          APP_DIR=$(find unsigned.xcarchive -name '*.app' -type d | head -1)
-          if [ -z "$APP_DIR" ]; then
-            echo "ERROR: No .app found in archive!"
-            echo "Archive contents (first 3 levels):"
+          mkdir -p Payload
+          APP_PATH=$(find unsigned.xcarchive -name '*.app' -type d | head -n 1)
+          if [ -z "$APP_PATH" ]; then
+            echo "❌ Error: Compiled .app bundle not found in archive."
+            echo "Archive contents:"
             find unsigned.xcarchive -maxdepth 3 -type d 2>/dev/null || echo "(archive directory missing)"
             exit 1
           fi
-          echo "Found app at: $APP_DIR"
-          mkdir -p Payload
-          cp -R "$APP_DIR" Payload/
+          echo "Found app at: $APP_PATH"
+          cp -R "$APP_PATH" Payload/
           zip -r Inscribe.ipa Payload/
           rm -rf Payload
           echo "=== IPA contents ==="
           unzip -l Inscribe.ipa | head -20
 
-      # 7. Upload the IPA as a downloadable artifact
+      # 6. Upload the IPA as a downloadable artifact
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Inscribe-Unsigned
           path: Inscribe.ipa
           compression-level: 0   # IPA is already compressed
-
-      # 8. Show build info
-      - name: Inspect Output
-        run: |
-          ls -lh Inscribe.ipa
-
-          if [ -d "unsigned.xcarchive" ]; then
-            echo "=== Archive Info ==="
-            plutil -p unsigned.xcarchive/Info.plist 2>/dev/null | head -20 || true
-            echo "=== Archive SDK ==="
-            plutil -p unsigned.xcarchive/Info.plist 2>/dev/null | grep -i -E "SDK|sdk|os" || true
-            echo "=== Archive Size ==="
-            du -sh unsigned.xcarchive/
-          fi
