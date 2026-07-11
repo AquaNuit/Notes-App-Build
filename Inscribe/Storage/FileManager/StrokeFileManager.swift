@@ -1,5 +1,6 @@
 import Foundation
 import OSLog
+import InscribeCore
 
 // MARK: - StrokeFileManager
 
@@ -76,7 +77,7 @@ public actor StrokeFileManager {
         try ensureDirectoryExists()
         let data = try encodeStrokes(strokes)
         let url = fileURL(for: pageID)
-        try data.write(to: url, options: .atomic)
+        try data.write(to: url, options: Data.WritingOptions.atomic)
         logger.debug("Saved \(strokes.count) strokes for page \(pageID)")
     }
 
@@ -183,7 +184,7 @@ public actor StrokeFileManager {
     private func encodeStroke(_ stroke: Stroke, to data: inout Data) throws {
         // Stroke ID (16 bytes)
         withUnsafeBytes(of: stroke.id.uuid) { ptr in
-            data.append(ptr.bind(to: UInt8.self))
+            data.append(contentsOf: ptr)
         }
 
         // Tool type (1 byte)
