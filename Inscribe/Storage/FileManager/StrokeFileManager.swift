@@ -286,7 +286,7 @@ public actor StrokeFileManager {
             metadataList.append(StrokeMetadataModel(
                 id: id,
                 pageID: UUID(), // caller must set
-                toolType: toolTypeRaw,
+                toolTypeRaw: toolTypeRaw,
                 color: color,
                 width: width,
                 pointCount: pointCount,
