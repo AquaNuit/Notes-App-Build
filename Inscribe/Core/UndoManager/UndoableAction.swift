@@ -56,7 +56,7 @@ public final class StrokeAction: UndoableAction {
 
 /// Combines multiple actions into a single undoable group.
 /// Useful for operations like "Move Selection" (remove + add strokes at new positions).
-public final class CompositeAction: UndoableAction {
+public final class CompositeAction: UndoableAction, @unchecked Sendable {
     public let label: String
     private var actions: [UndoableAction]
 

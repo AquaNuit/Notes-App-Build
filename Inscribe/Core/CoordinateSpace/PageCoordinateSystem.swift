@@ -22,7 +22,7 @@ public enum PageSize: String, CaseIterable, Codable, Sendable {
         case .a3: return CGSize(width: 842, height: 1191)    // 297 x 420 mm
         case .tabloid: return CGSize(width: 792, height: 1224) // 11 x 17 in
         case .square: return CGSize(width: 600, height: 600)
-        case .infinite: return CGSize(width: .infinity, height: .infinity)
+        case .infinite: return CGSize(width: CGFloat.infinity, height: CGFloat.infinity)
         }
     }
 

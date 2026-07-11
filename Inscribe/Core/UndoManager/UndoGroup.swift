@@ -15,7 +15,7 @@ import Foundation
 /// group.addAction(action2)
 /// undoManager.registerUndo(group)
 /// ```
-public final class UndoGroup: UndoableAction {
+public final class UndoGroup: UndoableAction, @unchecked Sendable {
     public let label: String
     public let timestamp: Date
 

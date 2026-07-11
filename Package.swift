@@ -74,7 +74,7 @@ let package = Package(
         // MARK: - Core Module
         .target(
             name: "InscribeCore",
-            dependencies: ["InscribeExtensions"],
+            dependencies: [],
             path: "Inscribe/Core"
         ),
         
@@ -138,13 +138,7 @@ let package = Package(
             path: "Inscribe/UI"
         ),
 
-        // MARK: - Extensions Module
-        .target(
-            name: "InscribeExtensions",
-            dependencies: [],
-            path: "Inscribe/Extensions"
-        ),
-        
+
         // MARK: - Utilities Module
         .target(
             name: "InscribeUtilities",
