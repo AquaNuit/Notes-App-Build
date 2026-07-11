@@ -1,5 +1,6 @@
 import CoreGraphics
 import Foundation
+import InscribeCore
 
 // MARK: - PressureCurveType
 
@@ -21,6 +22,8 @@ public protocol PressureCurveProviding {
 
 public struct LinearPressureCurve: PressureCurveProviding {
     public let curveType: PressureCurveType = .linear
+
+    public init() {}
 
     public func mapPressure(_ rawPressure: CGFloat) -> CGFloat {
         rawPressure.clamped(to: 0...1)

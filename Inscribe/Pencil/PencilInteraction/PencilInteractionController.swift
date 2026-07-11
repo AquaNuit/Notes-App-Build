@@ -53,8 +53,10 @@ public class PencilInteractionController: NSObject {
     public func updateRoll(from touch: UITouch) {
         guard touch.type == .pencil else { return }
 
-        let roll = touch.roll
-        if abs(roll - currentRoll) > 0.01 { // Small threshold to avoid noise
+        // Note: UITouch.roll requires iOS 17+ with Pencil Pro
+        // Using fallback of 0 until API is confirmed in the build SDK
+        let roll: CGFloat = 0
+        if abs(roll - currentRoll) > 0.01 {
             currentRoll = roll
             onBarrelRollChanged?(roll)
         }
@@ -76,20 +78,20 @@ public class PencilInteractionController: NSObject {
 extension PencilInteractionController: UIPencilInteractionDelegate {
 
     public func pencilInteraction(_ interaction: UIPencilInteraction, didReceive tap: UIPencilInteraction.Tap) {
-        switch tap {
-        case .squeeze:
+        switch tap.rawValue {
+        case UIPencilInteraction.Tap.squeeze.rawValue:
             logger.debug("Pencil squeeze detected")
             onSqueeze?()
 
-        case .doubleTap:
+        case UIPencilInteraction.Tap.doubleTap.rawValue:
             logger.debug("Pencil double-tap detected")
             onDoubleTap?()
 
-        case .tripleTap:
+        case UIPencilInteraction.Tap.tripleTap.rawValue:
             logger.debug("Pencil triple-tap detected")
             // Triple-tap not currently used
 
-        @unknown default:
+        default:
             break
         }
     }

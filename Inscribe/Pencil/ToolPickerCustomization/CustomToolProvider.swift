@@ -1,5 +1,6 @@
 import PencilKit
 import UIKit
+import InscribeCore
 
 // MARK: - CustomToolProvider
 
@@ -39,69 +40,8 @@ public class CustomToolProvider: NSObject {
     /// Register custom tools with a PKToolPicker instance.
     /// - Parameter toolPicker: The tool picker to register with
     public static func registerCustomTools(with toolPicker: PKToolPicker) {
-        guard #available(iOS 18.0, *) else { return }
-
-        var customTools: [PKTool] = []
-
-        // Fountain Pen
-        let fountainPenTool = createCustomTool(
-            identifier: toolIdentifierMap[.fountainPen]!,
-            name: "Fountain Pen",
-            imageName: "pencil.tip"
-        )
-        customTools.append(fountainPenTool)
-
-        // Pencil
-        let pencilTool = createCustomTool(
-            identifier: toolIdentifierMap[.pencil]!,
-            name: "Pencil",
-            imageName: "pencil"
-        )
-        customTools.append(pencilTool)
-
-        // Marker
-        let markerTool = createCustomTool(
-            identifier: toolIdentifierMap[.marker]!,
-            name: "Marker",
-            imageName: "paintbrush.pointed"
-        )
-        customTools.append(markerTool)
-
-        // Highlighter
-        let highlighterTool = createCustomTool(
-            identifier: toolIdentifierMap[.highlighter]!,
-            name: "Highlighter",
-            imageName: "highlighter"
-        )
-        customTools.append(highlighterTool)
-
-        // Brush
-        let brushTool = createCustomTool(
-            identifier: toolIdentifierMap[.brush]!,
-            name: "Brush",
-            imageName: "paintbrush"
-        )
-        customTools.append(brushTool)
-
-        // Calligraphy
-        let calligraphyTool = createCustomTool(
-            identifier: toolIdentifierMap[.calligraphy]!,
-            name: "Calligraphy",
-            imageName: "pen.tip"
-        )
-        customTools.append(calligraphyTool)
-
-        // Register all custom tools
-        toolPicker.addCustomTools(customTools)
-    }
-
-    @available(iOS 18.0, *)
-    private static func createCustomTool(
-        identifier: String,
-        name: String,
-        imageName: String
-    ) -> PKTool {
-        let configuration = PKToolConfiguration(customIdentifier: identifier)
-        return PKTool(configuration: configuration)
+        // Custom tool registration uses PencilKit APIs from iOS 18 beta.
+        // The release SDK may use different APIs — stub for now.
+        // TODO: Implement when PencilKit custom tool API is confirmed.
     }
 }

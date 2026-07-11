@@ -1,4 +1,5 @@
 import UIKit
+import InscribeCore
 
 // MARK: - HoverPreviewController
 
