@@ -71,7 +71,7 @@ public class TouchEngine: TouchProcessing {
             pressure: isPencil ? rawPressure.clamped(to: 0...1) : 0,
             azimuth: touch.azimuthAngle(in: view),
             altitude: touch.altitudeAngle,
-            roll: touch.type == .pencil ? touch.roll : nil,
+            roll: nil, // TODO: Add Pencil Pro roll support when API is confirmed in target SDK
             velocity: velocity,
             timestamp: touch.timestamp,
             isPredicted: false,

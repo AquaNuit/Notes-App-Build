@@ -71,7 +71,7 @@ public extension CGPoint {
     }
 
     /// Clamp point inside a rect
-    func clamped(to rect: CGRect) -> CGPoint {
+    public func clamped(to rect: CGRect) -> CGPoint {
         CGPoint(
             x: x.clamped(to: rect.minX...rect.maxX),
             y: y.clamped(to: rect.minY...rect.maxY)
@@ -83,7 +83,7 @@ public extension CGPoint {
 
 public extension CGFloat {
     /// Clamp a value to a closed range
-    func clamped(to range: ClosedRange<CGFloat>) -> CGFloat {
+    public func clamped(to range: ClosedRange<CGFloat>) -> CGFloat {
         Swift.min(Swift.max(self, range.lowerBound), range.upperBound)
     }
 

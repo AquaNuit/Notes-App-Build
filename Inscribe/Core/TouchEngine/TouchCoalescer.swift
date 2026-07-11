@@ -40,7 +40,7 @@ public class TouchCoalescer {
                     pressure: coalescedTouch.force / coalescedTouch.maximumPossibleForce,
                     azimuth: coalescedTouch.azimuthAngle(in: view),
                     altitude: coalescedTouch.altitudeAngle,
-                    roll: coalescedTouch.type == .pencil ? coalescedTouch.roll : nil,
+                    roll: nil, // TODO: Add Pencil Pro roll support when API is confirmed in target SDK
                     velocity: 0, // velocity calculated by TouchEngine
                     timestamp: coalescedTouch.timestamp,
                     isPredicted: false,
@@ -58,7 +58,7 @@ public class TouchCoalescer {
                     pressure: predictedTouch.force / predictedTouch.maximumPossibleForce,
                     azimuth: predictedTouch.azimuthAngle(in: view),
                     altitude: predictedTouch.altitudeAngle,
-                    roll: predictedTouch.type == .pencil ? predictedTouch.roll : nil,
+                    roll: nil, // TODO: Add Pencil Pro roll support when API is confirmed in target SDK
                     velocity: 0,
                     timestamp: predictedTouch.timestamp,
                     isPredicted: true,

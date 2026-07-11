@@ -1,0 +1,1152 @@
+Run DEVICE_ID=$(xcrun simctl list devices available 2>/dev/null | \
+  DEVICE_ID=$(xcrun simctl list devices available 2>/dev/null | \
+    grep -E 'iPad|iPhone' | grep -v 'unavailable' | \
+    grep -oE '[0-9A-F-]{36}' | head -1)
+  if [ -z "$DEVICE_ID" ]; then
+    echo "No iOS Simulator available — building for generic iOS instead"
+    xcodebuild build \
+      -scheme Inscribe \
+      -destination 'generic/platform=iOS' \
+      -configuration Release \
+      CODE_SIGNING_ALLOWED=NO
+  else
+    echo "Building for simulator: $(xcrun simctl list devices available 2>/dev/null | grep "$DEVICE_ID")"
+    xcodebuild build \
+      -scheme Inscribe \
+      -destination "platform=iOS Simulator,id=$DEVICE_ID" \
+      -configuration Release \
+      CODE_SIGNING_ALLOWED=NO
+  fi
+  shell: /bin/bash -e {0}
+Building for simulator:     iPhone 16 Pro (E0086334-B2EA-4DFC-B84E-BE9F3A53EF95) (Shutdown)
+Command line invocation:
+    /Applications/Xcode_26.3.app/Contents/Developer/usr/bin/xcodebuild build -scheme Inscribe -destination "platform=iOS Simulator,id=E0086334-B2EA-4DFC-B84E-BE9F3A53EF95" -configuration Release CODE_SIGNING_ALLOWED=NO
+
+Build settings from command line:
+    CODE_SIGNING_ALLOWED = NO
+
+Resolve Package Graph
+2026-07-10 15:02:16.522 xcodebuild[16304:47617] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+
+
+Resolved source packages:
+  Inscribe: /Users/runner/work/Notes-App-Build/Notes-App-Build
+
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:iOS Simulator, arch:arm64, id:E0086334-B2EA-4DFC-B84E-BE9F3A53EF95, OS:18.5, name:iPhone 16 Pro }
+{ platform:iOS Simulator, arch:x86_64, id:E0086334-B2EA-4DFC-B84E-BE9F3A53EF95, OS:18.5, name:iPhone 16 Pro }
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (11 targets)
+    Target 'Inscribe' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeApp' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeCore' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribePencil' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeRendering' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeCanvas' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeStorage' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeDocuments' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeUI' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeUtilities' in project 'Inscribe'
+    Target 'InscribeApp' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeCore' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribePencil' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeRendering' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeCanvas' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeStorage' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeDocuments' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeUI' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeUtilities' in project 'Inscribe'
+    Target 'InscribeUtilities' in project 'Inscribe' (no dependencies)
+    Target 'InscribeUI' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeCore' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribePencil' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeRendering' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeCanvas' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeStorage' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeDocuments' in project 'Inscribe'
+    Target 'InscribeDocuments' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeCore' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeStorage' in project 'Inscribe'
+    Target 'InscribeStorage' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeCore' in project 'Inscribe'
+    Target 'InscribeCanvas' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeCore' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribePencil' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeRendering' in project 'Inscribe'
+    Target 'InscribeRendering' in project 'Inscribe'
+        ➜ Explicit dependency on target 'Inscribe_InscribeRendering' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeCore' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribePencil' in project 'Inscribe'
+    Target 'Inscribe_InscribeRendering' in project 'Inscribe' (no dependencies)
+    Target 'InscribePencil' in project 'Inscribe'
+        ➜ Explicit dependency on target 'InscribeCore' in project 'Inscribe'
+    Target 'InscribeCore' in project 'Inscribe' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: a5223bc22593dd049e9aa1b460146cf4
+Build description path: /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/XCBuildData/a5223bc22593dd049e9aa1b460146cf4.xcbuilddata
+CreateBuildDirectory /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode
+    builtin-create-build-directory /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products
+
+CreateBuildDirectory /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode
+    builtin-create-build-directory /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex
+
+ClangStatCache /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk /Users/runner/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C57-dc75598d0054f22ec865fa860f139d72e244bd9a5feaf902f95f61bf06266e52.sdkstatcache
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode
+    /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -o /Users/runner/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C57-dc75598d0054f22ec865fa860f139d72e244bd9a5feaf902f95f61bf06266e52.sdkstatcache
+
+CreateBuildDirectory /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode
+    builtin-create-build-directory /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator
+
+CreateBuildDirectory /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode
+    builtin-create-build-directory /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/ExplicitPrecompiledModules
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode
+    builtin-create-build-directory /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/PackageFrameworks
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode
+    builtin-create-build-directory /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/PackageFrameworks
+
+CreateBuildDirectory /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/EagerLinkingTBDs/Release-iphonesimulator
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode
+    builtin-create-build-directory /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/EagerLinkingTBDs/Release-iphonesimulator
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/Inscribe_InscribeRendering.build/empty-Inscribe_InscribeRendering.plist (in target 'Inscribe_InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/Inscribe_InscribeRendering.build/empty-Inscribe_InscribeRendering.plist
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/Inscribe_InscribeRendering.build/Inscribe_InscribeRendering.DependencyStaticMetadataFileList (in target 'Inscribe_InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/Inscribe_InscribeRendering.build/Inscribe_InscribeRendering.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/Inscribe_InscribeRendering.build/Inscribe_InscribeRendering.DependencyMetadataFileList (in target 'Inscribe_InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/Inscribe_InscribeRendering.build/Inscribe_InscribeRendering.DependencyMetadataFileList
+
+MkDir /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/Inscribe_InscribeRendering.bundle (in target 'Inscribe_InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    /bin/mkdir -p /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/Inscribe_InscribeRendering.bundle
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities_const_extract_protocols.json (in target 'InscribeUtilities' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities.SwiftFileList (in target 'InscribeUtilities' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities.SwiftFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities.SwiftConstValuesFileList (in target 'InscribeUtilities' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities.LinkFileList (in target 'InscribeUtilities' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities.LinkFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities-OutputFileMap.json (in target 'InscribeUtilities' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/InscribeUtilities.modulemap (in target 'InscribeUtilities' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/InscribeUtilities.modulemap
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/InscribeUtilities.DependencyStaticMetadataFileList (in target 'InscribeUtilities' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/InscribeUtilities.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/InscribeUtilities.DependencyMetadataFileList (in target 'InscribeUtilities' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/InscribeUtilities.DependencyMetadataFileList
+
+Copy /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator/InscribeUtilities.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/InscribeUtilities.modulemap (in target 'InscribeUtilities' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/InscribeUtilities.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/Objects-normal/arm64/InscribeUI_const_extract_protocols.json (in target 'InscribeUI' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/Objects-normal/arm64/InscribeUI_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/Objects-normal/arm64/InscribeUI.SwiftFileList (in target 'InscribeUI' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/Objects-normal/arm64/InscribeUI.SwiftFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/Objects-normal/arm64/InscribeUI.SwiftConstValuesFileList (in target 'InscribeUI' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/Objects-normal/arm64/InscribeUI.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/Objects-normal/arm64/InscribeUI.LinkFileList (in target 'InscribeUI' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/Objects-normal/arm64/InscribeUI.LinkFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/Objects-normal/arm64/InscribeUI-OutputFileMap.json (in target 'InscribeUI' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/Objects-normal/arm64/InscribeUI-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/InscribeUI.modulemap (in target 'InscribeUI' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/InscribeUI.modulemap
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/InscribeUI.DependencyStaticMetadataFileList (in target 'InscribeUI' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/InscribeUI.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/InscribeUI.DependencyMetadataFileList (in target 'InscribeUI' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/InscribeUI.DependencyMetadataFileList
+
+Copy /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator/InscribeUI.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/InscribeUI.modulemap (in target 'InscribeUI' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUI.build/InscribeUI.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/Objects-normal/arm64/InscribeStorage_const_extract_protocols.json (in target 'InscribeStorage' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/Objects-normal/arm64/InscribeStorage_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/Objects-normal/arm64/InscribeStorage.SwiftFileList (in target 'InscribeStorage' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/Objects-normal/arm64/InscribeStorage.SwiftFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/Objects-normal/arm64/InscribeStorage.SwiftConstValuesFileList (in target 'InscribeStorage' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/Objects-normal/arm64/InscribeStorage.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/Objects-normal/arm64/InscribeStorage.LinkFileList (in target 'InscribeStorage' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/Objects-normal/arm64/InscribeStorage.LinkFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/Objects-normal/arm64/InscribeStorage-OutputFileMap.json (in target 'InscribeStorage' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/Objects-normal/arm64/InscribeStorage-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/InscribeStorage.modulemap (in target 'InscribeStorage' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/InscribeStorage.modulemap
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/InscribeStorage.DependencyStaticMetadataFileList (in target 'InscribeStorage' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/InscribeStorage.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/InscribeStorage.DependencyMetadataFileList (in target 'InscribeStorage' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/InscribeStorage.DependencyMetadataFileList
+
+Copy /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator/InscribeStorage.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/InscribeStorage.modulemap (in target 'InscribeStorage' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeStorage.build/InscribeStorage.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/Objects-normal/arm64/InscribeRendering_const_extract_protocols.json (in target 'InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/Objects-normal/arm64/InscribeRendering_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/Objects-normal/arm64/InscribeRendering.SwiftFileList (in target 'InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/Objects-normal/arm64/InscribeRendering.SwiftFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/Objects-normal/arm64/InscribeRendering.SwiftConstValuesFileList (in target 'InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/Objects-normal/arm64/InscribeRendering.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/Objects-normal/arm64/InscribeRendering.LinkFileList (in target 'InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/Objects-normal/arm64/InscribeRendering.LinkFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/Objects-normal/arm64/InscribeRendering-OutputFileMap.json (in target 'InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/Objects-normal/arm64/InscribeRendering-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/InscribeRendering.modulemap (in target 'InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/InscribeRendering.modulemap
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/InscribeRendering.DependencyStaticMetadataFileList (in target 'InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/InscribeRendering.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/InscribeRendering.DependencyMetadataFileList (in target 'InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/InscribeRendering.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/DerivedSources/resource_bundle_accessor.swift (in target 'InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/DerivedSources/resource_bundle_accessor.swift
+
+Copy /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator/InscribeRendering.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/InscribeRendering.modulemap (in target 'InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeRendering.build/InscribeRendering.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/Objects-normal/arm64/InscribePencil_const_extract_protocols.json (in target 'InscribePencil' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/Objects-normal/arm64/InscribePencil_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/Objects-normal/arm64/InscribePencil.SwiftFileList (in target 'InscribePencil' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/Objects-normal/arm64/InscribePencil.SwiftFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/Objects-normal/arm64/InscribePencil.SwiftConstValuesFileList (in target 'InscribePencil' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/Objects-normal/arm64/InscribePencil.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/Objects-normal/arm64/InscribePencil.LinkFileList (in target 'InscribePencil' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/Objects-normal/arm64/InscribePencil.LinkFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/Objects-normal/arm64/InscribePencil-OutputFileMap.json (in target 'InscribePencil' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/Objects-normal/arm64/InscribePencil-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/InscribePencil.modulemap (in target 'InscribePencil' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/InscribePencil.modulemap
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/InscribePencil.DependencyStaticMetadataFileList (in target 'InscribePencil' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/InscribePencil.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/InscribePencil.DependencyMetadataFileList (in target 'InscribePencil' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/InscribePencil.DependencyMetadataFileList
+
+Copy /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator/InscribePencil.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/InscribePencil.modulemap (in target 'InscribePencil' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribePencil.build/InscribePencil.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/Objects-normal/arm64/InscribeDocuments_const_extract_protocols.json (in target 'InscribeDocuments' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/Objects-normal/arm64/InscribeDocuments_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/Objects-normal/arm64/InscribeDocuments.SwiftFileList (in target 'InscribeDocuments' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/Objects-normal/arm64/InscribeDocuments.SwiftFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/Objects-normal/arm64/InscribeDocuments.SwiftConstValuesFileList (in target 'InscribeDocuments' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/Objects-normal/arm64/InscribeDocuments.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/Objects-normal/arm64/InscribeDocuments.LinkFileList (in target 'InscribeDocuments' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/Objects-normal/arm64/InscribeDocuments.LinkFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/Objects-normal/arm64/InscribeDocuments-OutputFileMap.json (in target 'InscribeDocuments' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/Objects-normal/arm64/InscribeDocuments-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/InscribeDocuments.modulemap (in target 'InscribeDocuments' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/InscribeDocuments.modulemap
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/InscribeDocuments.DependencyStaticMetadataFileList (in target 'InscribeDocuments' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/InscribeDocuments.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/InscribeDocuments.DependencyMetadataFileList (in target 'InscribeDocuments' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/InscribeDocuments.DependencyMetadataFileList
+
+Copy /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator/InscribeDocuments.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/InscribeDocuments.modulemap (in target 'InscribeDocuments' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeDocuments.build/InscribeDocuments.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore_const_extract_protocols.json (in target 'InscribeCore' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore.SwiftFileList (in target 'InscribeCore' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore.SwiftFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore.SwiftConstValuesFileList (in target 'InscribeCore' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore.LinkFileList (in target 'InscribeCore' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore.LinkFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore-OutputFileMap.json (in target 'InscribeCore' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/InscribeCore.modulemap (in target 'InscribeCore' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/InscribeCore.modulemap
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/InscribeCore.DependencyStaticMetadataFileList (in target 'InscribeCore' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/InscribeCore.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/InscribeCore.DependencyMetadataFileList (in target 'InscribeCore' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/InscribeCore.DependencyMetadataFileList
+
+Copy /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator/InscribeCore.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/InscribeCore.modulemap (in target 'InscribeCore' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/InscribeCore.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/Objects-normal/arm64/InscribeCanvas_const_extract_protocols.json (in target 'InscribeCanvas' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/Objects-normal/arm64/InscribeCanvas_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/Objects-normal/arm64/InscribeCanvas.SwiftFileList (in target 'InscribeCanvas' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/Objects-normal/arm64/InscribeCanvas.SwiftFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/Objects-normal/arm64/InscribeCanvas.SwiftConstValuesFileList (in target 'InscribeCanvas' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/Objects-normal/arm64/InscribeCanvas.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/Objects-normal/arm64/InscribeCanvas.LinkFileList (in target 'InscribeCanvas' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/Objects-normal/arm64/InscribeCanvas.LinkFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/Objects-normal/arm64/InscribeCanvas-OutputFileMap.json (in target 'InscribeCanvas' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/Objects-normal/arm64/InscribeCanvas-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/InscribeCanvas.modulemap (in target 'InscribeCanvas' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/InscribeCanvas.modulemap
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/InscribeCanvas.DependencyStaticMetadataFileList (in target 'InscribeCanvas' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/InscribeCanvas.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/InscribeCanvas.DependencyMetadataFileList (in target 'InscribeCanvas' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/InscribeCanvas.DependencyMetadataFileList
+
+Copy /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator/InscribeCanvas.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/InscribeCanvas.modulemap (in target 'InscribeCanvas' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCanvas.build/InscribeCanvas.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/Objects-normal/arm64/InscribeApp_const_extract_protocols.json (in target 'InscribeApp' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/Objects-normal/arm64/InscribeApp_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/Objects-normal/arm64/InscribeApp.SwiftFileList (in target 'InscribeApp' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/Objects-normal/arm64/InscribeApp.SwiftFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/Objects-normal/arm64/InscribeApp.SwiftConstValuesFileList (in target 'InscribeApp' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/Objects-normal/arm64/InscribeApp.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/Objects-normal/arm64/InscribeApp.LinkFileList (in target 'InscribeApp' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/Objects-normal/arm64/InscribeApp.LinkFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/Objects-normal/arm64/InscribeApp-OutputFileMap.json (in target 'InscribeApp' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/Objects-normal/arm64/InscribeApp-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/InscribeApp.modulemap (in target 'InscribeApp' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/InscribeApp.modulemap
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/InscribeApp.DependencyStaticMetadataFileList (in target 'InscribeApp' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/InscribeApp.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/InscribeApp.DependencyMetadataFileList (in target 'InscribeApp' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    write-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/InscribeApp.DependencyMetadataFileList
+
+Copy /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator/InscribeApp.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/InscribeApp.modulemap (in target 'InscribeApp' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeApp.build/InscribeApp.modulemap /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator
+
+ProcessInfoPlistFile /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/Inscribe_InscribeRendering.bundle/Info.plist /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/Inscribe_InscribeRendering.build/empty-Inscribe_InscribeRendering.plist (in target 'Inscribe_InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    builtin-infoPlistUtility /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/Inscribe_InscribeRendering.build/empty-Inscribe_InscribeRendering.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphonesimulator -o /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/Inscribe_InscribeRendering.bundle/Info.plist
+
+CompileMetalFile /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Rendering/MetalRenderer/Shaders.metal (in target 'Inscribe_InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    /var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.3.7003.10.de16pR/Metal.xctoolchain/usr/bin/metal -c -target air64-apple-ios18.0-simulator -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/include -F/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator -isysroot /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -fmetal-math-mode\=fast -fmetal-math-fp32-functions\=fast -serialize-diagnostics /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/Inscribe_InscribeRendering.build/Metal/Shaders.dia -o /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/Inscribe_InscribeRendering.build/Metal/Shaders.air -MMD -MT dependencies -MF /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/Inscribe_InscribeRendering.build/Metal/Shaders.dat /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Rendering/MetalRenderer/Shaders.metal
+
+MetalLink /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/Inscribe_InscribeRendering.bundle/default.metallib (in target 'Inscribe_InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    /var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.3.7003.10.de16pR/Metal.xctoolchain/usr/bin/metal -target air64-apple-ios18.0-simulator -o /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/Inscribe_InscribeRendering.bundle/default.metallib /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/Inscribe_InscribeRendering.build/Metal/Shaders.air
+
+RegisterExecutionPolicyException /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/Inscribe_InscribeRendering.bundle (in target 'Inscribe_InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    builtin-RegisterExecutionPolicyException /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/Inscribe_InscribeRendering.bundle
+
+Touch /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/Inscribe_InscribeRendering.bundle (in target 'Inscribe_InscribeRendering' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build
+    /usr/bin/touch -c /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/Inscribe_InscribeRendering.bundle
+
+SwiftDriver InscribeUtilities normal arm64 com.apple.xcode.tools.swift.compiler (in target 'InscribeUtilities' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode
+    builtin-SwiftDriver -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name InscribeUtilities -O -whole-module-optimization -enforce-exclusivity\=checked @/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities.SwiftFileList -DSWIFT_PACKAGE -DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -DXcode -plugin-path /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -swift-version 6 -I /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator -Isystem /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator -F /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/Developer/Library/Frameworks -c -num-threads 3 -Xcc -ivfsstatcache -Xcc /Users/runner/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C57-dc75598d0054f22ec865fa860f139d72e244bd9a5feaf902f95f61bf06266e52.sdkstatcache -output-file-map /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -package-name notes_app_build -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities_const_extract_protocols.json -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/include -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/DerivedSources-normal/arm64 -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/DerivedSources/arm64 -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/DerivedSources -Xcc -DSWIFT_PACKAGE -emit-objc-header -emit-objc-header-path /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities-Swift.h -working-directory /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode -no-emit-module-separately-wmo
+
+SwiftDriver InscribeCore normal arm64 com.apple.xcode.tools.swift.compiler (in target 'InscribeCore' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode
+    builtin-SwiftDriver -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name InscribeCore -O -whole-module-optimization -enforce-exclusivity\=checked @/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore.SwiftFileList -DSWIFT_PACKAGE -DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -DXcode -plugin-path /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -swift-version 6 -I /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator -Isystem /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator -F /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/Developer/Library/Frameworks -c -num-threads 3 -Xcc -ivfsstatcache -Xcc /Users/runner/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C57-dc75598d0054f22ec865fa860f139d72e244bd9a5feaf902f95f61bf06266e52.sdkstatcache -output-file-map /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -package-name notes_app_build -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore_const_extract_protocols.json -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/include -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/DerivedSources-normal/arm64 -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/DerivedSources/arm64 -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/DerivedSources -Xcc -DSWIFT_PACKAGE -emit-objc-header -emit-objc-header-path /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore-Swift.h -working-directory /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode -no-emit-module-separately-wmo
+
+SwiftDriver\ Compilation InscribeUtilities normal arm64 com.apple.xcode.tools.swift.compiler (in target 'InscribeUtilities' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode
+    builtin-Swift-Compilation -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name InscribeUtilities -O -whole-module-optimization -enforce-exclusivity\=checked @/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities.SwiftFileList -DSWIFT_PACKAGE -DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -DXcode -plugin-path /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -swift-version 6 -I /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator -Isystem /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator -F /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/Developer/Library/Frameworks -c -num-threads 3 -Xcc -ivfsstatcache -Xcc /Users/runner/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C57-dc75598d0054f22ec865fa860f139d72e244bd9a5feaf902f95f61bf06266e52.sdkstatcache -output-file-map /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -package-name notes_app_build -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities_const_extract_protocols.json -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/include -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/DerivedSources-normal/arm64 -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/DerivedSources/arm64 -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/DerivedSources -Xcc -DSWIFT_PACKAGE -emit-objc-header -emit-objc-header-path /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities-Swift.h -working-directory /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode -no-emit-module-separately-wmo
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_SwiftConcurrencyShims-4IMUKH86Y3HVF75M6AOETV9K8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/SwiftShims-7KK7NHIGBLK849ZAK88I3C6TN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/DeveloperToolsSupport-5JOYH86J18660Z4WO01JODF2X.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_AvailabilityInternal-19AIG9XJT68PA48LH9PTFCWW1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdbool-6FDSBKWPHKY9HYGJ71HPI347V.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_float-3I1G6AABLNAT97CYPW8MWBOR1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdarg-1JK4HPKL0DADYMNM82ES19891.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stddef-9AZ835KKWJSTG30EDRW9X8W0S.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ptrcheck-AS5ID6X86QU16XCIB4HX80NDN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ptrauth-1GNBJZII7VO4PSAMGM74I2DI5.pcm
+
+SwiftDriver\ Compilation InscribeCore normal arm64 com.apple.xcode.tools.swift.compiler (in target 'InscribeCore' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode
+    builtin-Swift-Compilation -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name InscribeCore -O -whole-module-optimization -enforce-exclusivity\=checked @/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore.SwiftFileList -DSWIFT_PACKAGE -DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -DXcode -plugin-path /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -swift-version 6 -I /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator -Isystem /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator -F /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/Developer/Library/Frameworks -c -num-threads 3 -Xcc -ivfsstatcache -Xcc /Users/runner/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C57-dc75598d0054f22ec865fa860f139d72e244bd9a5feaf902f95f61bf06266e52.sdkstatcache -output-file-map /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -package-name notes_app_build -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore_const_extract_protocols.json -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/include -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/DerivedSources-normal/arm64 -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/DerivedSources/arm64 -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/DerivedSources -Xcc -DSWIFT_PACKAGE -emit-objc-header -emit-objc-header-path /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore-Swift.h -working-directory /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode -no-emit-module-separately-wmo
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation1-817PNXJ7439J9BDKJIJSYI43Z.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_limits-8RKLXT889DAKZQRGQJ9UE5Y8A.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation2-5TTSVEL7MHBWTHHGCNN375MC8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/sys_types-BQTJ62IU290IABNJGMG5ZP8S7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_tgmath-38AQ5B449RFOJDP9ZGOR5ICYQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdint-40M6C3KLHXP8E5NNLQ9FFDNFC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdatomic-9WBBMF4HVX12313F4WS98TSDG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation3-3MPPJ3VHH27EHW39CZ9EAB47C.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_intrinsics-BK8THYUOEDGKS48FQSLLRL4AP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_inttypes-JEYB3TX9FQXORFVHO1GJW9KT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Darwin-6E0N143IXAQMD2OW50G894S4T.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/simd-DHLU0A9S9EDH1GYQ0A3LUIUQO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ObjectiveC-10B745AD1B0X30ALAZESXBQVY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/MachO-AF49KBBOIXFD6T09AJTMPAJYM.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os_object-DZUFPJFREIQP7YPF10000W0MG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os_workgroup-397KBOGIES5JKDD9Z3T1JID9T.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Dispatch-AUOJW6S7SXVGJXE0I3C8ZE7U9.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Spatial-4LAK5750SHNHONWIEAPSV10OX.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/XPC-CQKESFUPQ3ZJN914KX3O3INJE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreFoundation-1Y1IXKONCQWM8A1DR90MVJLBH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os-BEFDQ05H6ZMJH4NEDQLXAIAKF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CFNetwork-ER4531QAO4ADFEMB5D7951UDI.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Security-3E2URSJ7IA0688RTW6IR7FQN8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreGraphics-Q868IRQQIOG9W9O806XMP0Y0.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Foundation-19I4HYDKWQNIASQL58HMNFQLZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ImageIO-EK41HFHBH1F2CSVYZ8DKHPT5Z.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreText-F534L7650S4G60JC4UA5JPEIP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UIUtilities-JIR6CAVXSF690VX1TPBKMH9X.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/DataDetection-AVLH1IZCP4OVMHU41A2CVIIF7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Accessibility-E0EURQG2AN0JRVLFUZWIK4SZJ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreTransferable-9JTSL5DXS805EE1DQLVXZIHW4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/FileProvider-86KPK6ITN0NQGXJ6Q1L52MBHN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/IOSurface-9DMGC3YDHV6HQPBUCHP004D6Y.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UserNotifications-1KPQZTO8IUVRX24U2G9PR8JCB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UniformTypeIdentifiers-AXLCSCCU01QWGMTV7LD6WD5B3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/OpenGLES-D983LFNK12OFMRB8BNWZCY54F.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Metal-3WLTRSHE9SR211NFZF60Q94QP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/OSLog-7FSDN4209YA6CJ0NHAHTJ68V3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreData-80GV9FY1DW4ODCRDFTHWGPU0D.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Symbols-AQVV761MPMZS1P99GXC689CC0.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreVideo-1GF0W6WVK356698UT6ZNFN3V4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/QuartzCore-8J0JSV49TH5F0TA2Z9B736LQ1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreImage-5XVSCD18TFCYVDF0N5X1CVIJA.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/SwiftUICore-32GWRXSD4Z889SO1EWR1LFS0P.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UIKit-3ED3W2BQE39KE0CW8R6FDPW8N.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/SwiftUI-BTNO5KNPED426KAQOOVH9E7ES.pcm
+
+SwiftCompile normal arm64 Compiling\ HapticManager.swift,\ Logger.swift,\ PerformanceMonitor.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/PerformanceMonitor.swift /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreText.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreImage.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_Builtin_float.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Darwin.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Foundation.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreFoundation.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/os.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreVideo.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Combine.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreTransferable.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_StringProcessing.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Metal.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_DarwinFoundation3.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/UIKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreGraphics.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/SwiftUICore.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/DeveloperToolsSupport.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_DarwinFoundation2.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/System.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/DataDetection.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/ObjectiveC.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/XPC.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Observation.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/QuartzCore.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/FileProvider.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/OSLog.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Dispatch.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_Concurrency.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Accessibility.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Symbols.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_DarwinFoundation1.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/UniformTypeIdentifiers.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Swift.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Security-3E2URSJ7IA0688RTW6IR7FQN8.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/QuartzCore-8J0JSV49TH5F0TA2Z9B736LQ1.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/SwiftUICore-32GWRXSD4Z889SO1EWR1LFS0P.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreGraphics-Q868IRQQIOG9W9O806XMP0Y0.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Symbols-AQVV761MPMZS1P99GXC689CC0.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UniformTypeIdentifiers-AXLCSCCU01QWGMTV7LD6WD5B3.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/XPC-CQKESFUPQ3ZJN914KX3O3INJE.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/FileProvider-86KPK6ITN0NQGXJ6Q1L52MBHN.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Darwin-6E0N143IXAQMD2OW50G894S4T.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation1-817PNXJ7439J9BDKJIJSYI43Z.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdint-40M6C3KLHXP8E5NNLQ9FFDNFC.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/OpenGLES-D983LFNK12OFMRB8BNWZCY54F.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/DataDetection-AVLH1IZCP4OVMHU41A2CVIIF7.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Foundation-19I4HYDKWQNIASQL58HMNFQLZ.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CFNetwork-ER4531QAO4ADFEMB5D7951UDI.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_inttypes-JEYB3TX9FQXORFVHO1GJW9KT.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stddef-9AZ835KKWJSTG30EDRW9X8W0S.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Metal-3WLTRSHE9SR211NFZF60Q94QP.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ImageIO-EK41HFHBH1F2CSVYZ8DKHPT5Z.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreText-F534L7650S4G60JC4UA5JPEIP.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_AvailabilityInternal-19AIG9XJT68PA48LH9PTFCWW1.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdarg-1JK4HPKL0DADYMNM82ES19891.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/SwiftShims-7KK7NHIGBLK849ZAK88I3C6TN.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Accessibility-E0EURQG2AN0JRVLFUZWIK4SZJ.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreFoundation-1Y1IXKONCQWM8A1DR90MVJLBH.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UserNotifications-1KPQZTO8IUVRX24U2G9PR8JCB.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os_object-DZUFPJFREIQP7YPF10000W0MG.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ptrauth-1GNBJZII7VO4PSAMGM74I2DI5.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os_workgroup-397KBOGIES5JKDD9Z3T1JID9T.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/OSLog-7FSDN4209YA6CJ0NHAHTJ68V3.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreVideo-1GF0W6WVK356698UT6ZNFN3V4.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/MachO-AF49KBBOIXFD6T09AJTMPAJYM.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreImage-5XVSCD18TFCYVDF0N5X1CVIJA.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ObjectiveC-10B745AD1B0X30ALAZESXBQVY.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation2-5TTSVEL7MHBWTHHGCNN375MC8.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_float-3I1G6AABLNAT97CYPW8MWBOR1.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/DeveloperToolsSupport-5JOYH86J18660Z4WO01JODF2X.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os-BEFDQ05H6ZMJH4NEDQLXAIAKF.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdatomic-9WBBMF4HVX12313F4WS98TSDG.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_SwiftConcurrencyShims-4IMUKH86Y3HVF75M6AOETV9K8.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/sys_types-BQTJ62IU290IABNJGMG5ZP8S7.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreTransferable-9JTSL5DXS805EE1DQLVXZIHW4.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UIKit-3ED3W2BQE39KE0CW8R6FDPW8N.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/IOSurface-9DMGC3YDHV6HQPBUCHP004D6Y.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdbool-6FDSBKWPHKY9HYGJ71HPI347V.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ptrcheck-AS5ID6X86QU16XCIB4HX80NDN.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_limits-8RKLXT889DAKZQRGQJ9UE5Y8A.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation3-3MPPJ3VHH27EHW39CZ9EAB47C.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Dispatch-AUOJW6S7SXVGJXE0I3C8ZE7U9.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UIUtilities-JIR6CAVXSF690VX1TPBKMH9X.pcm /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities-dependencies-1.json (in target 'InscribeUtilities' from project 'Inscribe')
+CompileSwift normal arm64 (in target 'InscribeUtilities' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode
+
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:13:23: error: static property 'shared' is not concurrency-safe because non-'Sendable' type 'HapticManager' may have shared mutable state
+    public static let shared = HapticManager()
+                      ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:11:14: note: class 'HapticManager' does not conform to the 'Sendable' protocol
+public class HapticManager {
+             ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:13:23: note: add '@MainActor' to make static property 'shared' part of global actor 'MainActor'
+    public static let shared = HapticManager()
+                      ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:13:23: note: disable concurrency-safety checks if accesses are protected by an external synchronization mechanism
+    public static let shared = HapticManager()
+                      ^
+    nonisolated(unsafe)
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:16:17: error: main actor-isolated default value in a nonisolated context
+    private let impactLight = UIImpactFeedbackGenerator(style: .light)
+                ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:17:17: error: main actor-isolated default value in a nonisolated context
+    private let impactMedium = UIImpactFeedbackGenerator(style: .medium)
+                ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:18:17: error: main actor-isolated default value in a nonisolated context
+    private let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
+                ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:19:17: error: main actor-isolated default value in a nonisolated context
+    private let selection = UISelectionFeedbackGenerator()
+                ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:20:17: error: main actor-isolated default value in a nonisolated context
+    private let notification = UINotificationFeedbackGenerator()
+                ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:32:28: warning: call to main actor-isolated initializer 'init(view:)' in a synchronous nonisolated context
+            let feedback = UICanvasFeedbackGenerator(view: view)
+                           ^
+/Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIFeedbackGenerator.h:19:1: note: calls to initializer 'init(view:)' from outside of its actor context are implicitly asynchronous
++ (instancetype)feedbackGeneratorForView:(UIView *)view NS_SWIFT_NAME(init(view:)) API_AVAILABLE(ios(17.5)) API_UNAVAILABLE(visionos);
+^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:30:17: note: add '@MainActor' to make instance method 'prepareCanvasFeedback(for:)' part of global actor 'MainActor'
+    public func prepareCanvasFeedback(for view: UIView) {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:33:22: warning: call to main actor-isolated instance method 'prepare()' in a synchronous nonisolated context
+            feedback.prepare()
+                     ^
+UIKit.UIFeedbackGenerator.prepare:2:22: note: calls to instance method 'prepare()' from outside of its actor context are implicitly asynchronous
+@MainActor open func prepare()}
+                     ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:30:17: note: add '@MainActor' to make instance method 'prepareCanvasFeedback(for:)' part of global actor 'MainActor'
+    public func prepareCanvasFeedback(for view: UIView) {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:42:29: error: value of type 'UICanvasFeedbackGenerator' has no member 'strokeCompleted'
+            canvasFeedback?.strokeCompleted()
+            ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:44:25: warning: call to main actor-isolated instance method 'impactOccurred(intensity:)' in a synchronous nonisolated context
+            impactLight.impactOccurred(intensity: 0.5)
+                        ^
+UIKit.UIImpactFeedbackGenerator.impactOccurred:3:24: note: calls to instance method 'impactOccurred(intensity:)' from outside of its actor context are implicitly asynchronous
+  @MainActor open func impactOccurred(intensity: CGFloat)}
+                       ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:39:17: note: add '@MainActor' to make instance method 'strokeCompleted()' part of global actor 'MainActor'
+    public func strokeCompleted() {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:52:47: error: missing argument for parameter 'at' in call
+            canvasFeedback?.alignmentOccurred()
+                                              ^
+                                              at: <#CGPoint#>
+UIKit.UICanvasFeedbackGenerator.alignmentOccurred:2:22: note: 'alignmentOccurred(at:)' declared here
+@MainActor open func alignmentOccurred(at location: CGPoint)}
+                     ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:54:23: warning: call to main actor-isolated instance method 'selectionChanged()' in a synchronous nonisolated context
+            selection.selectionChanged()
+                      ^
+UIKit.UISelectionFeedbackGenerator.selectionChanged:2:22: note: calls to instance method 'selectionChanged()' from outside of its actor context are implicitly asynchronous
+@MainActor open func selectionChanged()}
+                     ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:49:17: note: add '@MainActor' to make instance method 'snappedToGuide()' part of global actor 'MainActor'
+    public func snappedToGuide() {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:62:19: warning: call to main actor-isolated instance method 'selectionChanged()' in a synchronous nonisolated context
+        selection.selectionChanged()
+                  ^
+UIKit.UISelectionFeedbackGenerator.selectionChanged:2:22: note: calls to instance method 'selectionChanged()' from outside of its actor context are implicitly asynchronous
+@MainActor open func selectionChanged()}
+                     ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:60:17: note: add '@MainActor' to make instance method 'toolChanged()' part of global actor 'MainActor'
+    public func toolChanged() {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:67:19: warning: call to main actor-isolated instance method 'selectionChanged()' in a synchronous nonisolated context
+        selection.selectionChanged()
+                  ^
+UIKit.UISelectionFeedbackGenerator.selectionChanged:2:22: note: calls to instance method 'selectionChanged()' from outside of its actor context are implicitly asynchronous
+@MainActor open func selectionChanged()}
+                     ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:65:17: note: add '@MainActor' to make instance method 'colorChanged()' part of global actor 'MainActor'
+    public func colorChanged() {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:74:22: warning: call to main actor-isolated instance method 'impactOccurred(intensity:)' in a synchronous nonisolated context
+        impactMedium.impactOccurred(intensity: 0.7)
+                     ^
+UIKit.UIImpactFeedbackGenerator.impactOccurred:3:24: note: calls to instance method 'impactOccurred(intensity:)' from outside of its actor context are implicitly asynchronous
+  @MainActor open func impactOccurred(intensity: CGFloat)}
+                       ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:72:17: note: add '@MainActor' to make instance method 'squeezeDetected()' part of global actor 'MainActor'
+    public func squeezeDetected() {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:79:21: warning: call to main actor-isolated instance method 'impactOccurred(intensity:)' in a synchronous nonisolated context
+        impactLight.impactOccurred(intensity: 0.6)
+                    ^
+UIKit.UIImpactFeedbackGenerator.impactOccurred:3:24: note: calls to instance method 'impactOccurred(intensity:)' from outside of its actor context are implicitly asynchronous
+  @MainActor open func impactOccurred(intensity: CGFloat)}
+                       ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:77:17: note: add '@MainActor' to make instance method 'doubleTapDetected()' part of global actor 'MainActor'
+    public func doubleTapDetected() {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:84:22: warning: call to main actor-isolated instance method 'notificationOccurred' in a synchronous nonisolated context
+        notification.notificationOccurred(.success)
+                     ^
+UIKit.UINotificationFeedbackGenerator.notificationOccurred:2:22: note: calls to instance method 'notificationOccurred' from outside of its actor context are implicitly asynchronous
+@MainActor open func notificationOccurred(_ notificationType: UINotificationFeedbackGenerator.FeedbackType)}
+                     ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:82:17: note: add '@MainActor' to make instance method 'undoPerformed()' part of global actor 'MainActor'
+    public func undoPerformed() {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:89:22: warning: call to main actor-isolated instance method 'notificationOccurred' in a synchronous nonisolated context
+        notification.notificationOccurred(.error)
+                     ^
+UIKit.UINotificationFeedbackGenerator.notificationOccurred:2:22: note: calls to instance method 'notificationOccurred' from outside of its actor context are implicitly asynchronous
+@MainActor open func notificationOccurred(_ notificationType: UINotificationFeedbackGenerator.FeedbackType)}
+                     ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:87:17: note: add '@MainActor' to make instance method 'errorOccurred()' part of global actor 'MainActor'
+    public func errorOccurred() {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:96:22: warning: call to main actor-isolated instance method 'impactOccurred(intensity:)' in a synchronous nonisolated context
+        impactMedium.impactOccurred(intensity: 0.4)
+                     ^
+UIKit.UIImpactFeedbackGenerator.impactOccurred:3:24: note: calls to instance method 'impactOccurred(intensity:)' from outside of its actor context are implicitly asynchronous
+  @MainActor open func impactOccurred(intensity: CGFloat)}
+                       ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:94:17: note: add '@MainActor' to make instance method 'lassoCompleted()' part of global actor 'MainActor'
+    public func lassoCompleted() {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:102:29: error: value of type 'UICanvasFeedbackGenerator' has no member 'strokeCompleted'
+            canvasFeedback?.strokeCompleted()
+            ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:104:26: warning: call to main actor-isolated instance method 'notificationOccurred' in a synchronous nonisolated context
+            notification.notificationOccurred(.success)
+                         ^
+UIKit.UINotificationFeedbackGenerator.notificationOccurred:2:22: note: calls to instance method 'notificationOccurred' from outside of its actor context are implicitly asynchronous
+@MainActor open func notificationOccurred(_ notificationType: UINotificationFeedbackGenerator.FeedbackType)}
+                     ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:99:17: note: add '@MainActor' to make instance method 'shapeRecognized()' part of global actor 'MainActor'
+    public func shapeRecognized() {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:111:21: warning: call to main actor-isolated instance method 'prepare()' in a synchronous nonisolated context
+        impactLight.prepare()
+                    ^
+UIKit.UIFeedbackGenerator.prepare:2:22: note: calls to instance method 'prepare()' from outside of its actor context are implicitly asynchronous
+@MainActor open func prepare()}
+                     ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:110:17: note: add '@MainActor' to make instance method 'prepare()' part of global actor 'MainActor'
+    public func prepare() {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:112:22: warning: call to main actor-isolated instance method 'prepare()' in a synchronous nonisolated context
+        impactMedium.prepare()
+                     ^
+UIKit.UIFeedbackGenerator.prepare:2:22: note: calls to instance method 'prepare()' from outside of its actor context are implicitly asynchronous
+@MainActor open func prepare()}
+                     ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:110:17: note: add '@MainActor' to make instance method 'prepare()' part of global actor 'MainActor'
+    public func prepare() {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:113:21: warning: call to main actor-isolated instance method 'prepare()' in a synchronous nonisolated context
+        impactHeavy.prepare()
+                    ^
+UIKit.UIFeedbackGenerator.prepare:2:22: note: calls to instance method 'prepare()' from outside of its actor context are implicitly asynchronous
+@MainActor open func prepare()}
+                     ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:110:17: note: add '@MainActor' to make instance method 'prepare()' part of global actor 'MainActor'
+    public func prepare() {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:114:19: warning: call to main actor-isolated instance method 'prepare()' in a synchronous nonisolated context
+        selection.prepare()
+                  ^
+UIKit.UIFeedbackGenerator.prepare:2:22: note: calls to instance method 'prepare()' from outside of its actor context are implicitly asynchronous
+@MainActor open func prepare()}
+                     ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:110:17: note: add '@MainActor' to make instance method 'prepare()' part of global actor 'MainActor'
+    public func prepare() {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:115:22: warning: call to main actor-isolated instance method 'prepare()' in a synchronous nonisolated context
+        notification.prepare()
+                     ^
+UIKit.UIFeedbackGenerator.prepare:2:22: note: calls to instance method 'prepare()' from outside of its actor context are implicitly asynchronous
+@MainActor open func prepare()}
+                     ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift:110:17: note: add '@MainActor' to make instance method 'prepare()' part of global actor 'MainActor'
+    public func prepare() {
+                ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:60:23: error: static property 'app' is not concurrency-safe because non-'Sendable' type 'InscribeLogger' may have shared mutable state
+    public static let app = InscribeLogger(category: "app")
+                      ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:10:15: note: consider making struct 'InscribeLogger' conform to the 'Sendable' protocol
+public struct InscribeLogger {
+              ^
+                             : Sendable
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:60:23: note: add '@MainActor' to make static property 'app' part of global actor 'MainActor'
+    public static let app = InscribeLogger(category: "app")
+                      ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:60:23: note: disable concurrency-safety checks if accesses are protected by an external synchronization mechanism
+    public static let app = InscribeLogger(category: "app")
+                      ^
+    nonisolated(unsafe)
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:61:23: error: static property 'canvas' is not concurrency-safe because non-'Sendable' type 'InscribeLogger' may have shared mutable state
+    public static let canvas = InscribeLogger(category: "canvas")
+                      ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:10:15: note: consider making struct 'InscribeLogger' conform to the 'Sendable' protocol
+public struct InscribeLogger {
+              ^
+                             : Sendable
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:61:23: note: add '@MainActor' to make static property 'canvas' part of global actor 'MainActor'
+    public static let canvas = InscribeLogger(category: "canvas")
+                      ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:61:23: note: disable concurrency-safety checks if accesses are protected by an external synchronization mechanism
+    public static let canvas = InscribeLogger(category: "canvas")
+                      ^
+    nonisolated(unsafe)
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:62:23: error: static property 'rendering' is not concurrency-safe because non-'Sendable' type 'InscribeLogger' may have shared mutable state
+    public static let rendering = InscribeLogger(category: "rendering")
+                      ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:10:15: note: consider making struct 'InscribeLogger' conform to the 'Sendable' protocol
+public struct InscribeLogger {
+              ^
+                             : Sendable
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:62:23: note: add '@MainActor' to make static property 'rendering' part of global actor 'MainActor'
+    public static let rendering = InscribeLogger(category: "rendering")
+                      ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:62:23: note: disable concurrency-safety checks if accesses are protected by an external synchronization mechanism
+    public static let rendering = InscribeLogger(category: "rendering")
+                      ^
+    nonisolated(unsafe)
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:63:23: error: static property 'storage' is not concurrency-safe because non-'Sendable' type 'InscribeLogger' may have shared mutable state
+    public static let storage = InscribeLogger(category: "storage")
+                      ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:10:15: note: consider making struct 'InscribeLogger' conform to the 'Sendable' protocol
+public struct InscribeLogger {
+              ^
+                             : Sendable
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:63:23: note: add '@MainActor' to make static property 'storage' part of global actor 'MainActor'
+    public static let storage = InscribeLogger(category: "storage")
+                      ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:63:23: note: disable concurrency-safety checks if accesses are protected by an external synchronization mechanism
+    public static let storage = InscribeLogger(category: "storage")
+                      ^
+    nonisolated(unsafe)
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:64:23: error: static property 'sync' is not concurrency-safe because non-'Sendable' type 'InscribeLogger' may have shared mutable state
+    public static let sync = InscribeLogger(category: "sync")
+                      ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:10:15: note: consider making struct 'InscribeLogger' conform to the 'Sendable' protocol
+public struct InscribeLogger {
+              ^
+                             : Sendable
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:64:23: note: add '@MainActor' to make static property 'sync' part of global actor 'MainActor'
+    public static let sync = InscribeLogger(category: "sync")
+                      ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:64:23: note: disable concurrency-safety checks if accesses are protected by an external synchronization mechanism
+    public static let sync = InscribeLogger(category: "sync")
+                      ^
+    nonisolated(unsafe)
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:65:23: error: static property 'pencil' is not concurrency-safe because non-'Sendable' type 'InscribeLogger' may have shared mutable state
+    public static let pencil = InscribeLogger(category: "pencil")
+                      ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:10:15: note: consider making struct 'InscribeLogger' conform to the 'Sendable' protocol
+public struct InscribeLogger {
+              ^
+                             : Sendable
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:65:23: note: add '@MainActor' to make static property 'pencil' part of global actor 'MainActor'
+    public static let pencil = InscribeLogger(category: "pencil")
+                      ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:65:23: note: disable concurrency-safety checks if accesses are protected by an external synchronization mechanism
+    public static let pencil = InscribeLogger(category: "pencil")
+                      ^
+    nonisolated(unsafe)
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:66:23: error: static property 'documents' is not concurrency-safe because non-'Sendable' type 'InscribeLogger' may have shared mutable state
+    public static let documents = InscribeLogger(category: "documents")
+                      ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:10:15: note: consider making struct 'InscribeLogger' conform to the 'Sendable' protocol
+public struct InscribeLogger {
+              ^
+                             : Sendable
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:66:23: note: add '@MainActor' to make static property 'documents' part of global actor 'MainActor'
+    public static let documents = InscribeLogger(category: "documents")
+                      ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:66:23: note: disable concurrency-safety checks if accesses are protected by an external synchronization mechanism
+    public static let documents = InscribeLogger(category: "documents")
+                      ^
+    nonisolated(unsafe)
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:67:23: error: static property 'search' is not concurrency-safe because non-'Sendable' type 'InscribeLogger' may have shared mutable state
+    public static let search = InscribeLogger(category: "search")
+                      ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:10:15: note: consider making struct 'InscribeLogger' conform to the 'Sendable' protocol
+public struct InscribeLogger {
+              ^
+                             : Sendable
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:67:23: note: add '@MainActor' to make static property 'search' part of global actor 'MainActor'
+    public static let search = InscribeLogger(category: "search")
+                      ^
+    @MainActor
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift:67:23: note: disable concurrency-safety checks if accesses are protected by an external synchronization mechanism
+    public static let search = InscribeLogger(category: "search")
+                      ^
+    nonisolated(unsafe)
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/PerformanceMonitor.swift:43:13: warning: capture of 'self' with non-Sendable type 'PerformanceMonitor?' in a '@Sendable' closure
+            self?.reportMetrics()
+            ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/PerformanceMonitor.swift:19:14: note: class 'PerformanceMonitor' does not conform to the 'Sendable' protocol
+public class PerformanceMonitor {
+             ^
+/Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/PerformanceMonitor.swift:134:48: error: cannot find 'THREAD_BASIC_INFO_COUNT' in scope
+            var count = mach_msg_type_number_t(THREAD_BASIC_INFO_COUNT)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~
+/Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/usr/include/mach/thread_info.h:105:9: note: macro 'THREAD_BASIC_INFO_COUNT' unavailable: structure not supported
+#define THREAD_BASIC_INFO_COUNT   ((mach_msg_type_number_t) \
+        ^
+
+Failed frontend command:
+/Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend -frontend -c /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/PerformanceMonitor.swift -supplementary-output-file-map /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/supplementaryOutputs-1 -target arm64-apple-ios18.0-simulator -load-resolved-plugin /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libFoundationMacros.dylib\#/Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#FoundationMacros -load-resolved-plugin /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libObservationMacros.dylib\#/Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#ObservationMacros -load-resolved-plugin /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libPreviewsMacros.dylib\#/Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#PreviewsMacros -load-resolved-plugin /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libSwiftMacros.dylib\#/Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#SwiftMacros -load-resolved-plugin /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libSwiftUIMacros.dylib\#/Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#SwiftUIMacros -disable-implicit-swift-modules -Xcc -fno-implicit-modules -Xcc -fno-implicit-module-maps -explicit-swift-module-map-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities-dependencies-1.json -Xllvm -aarch64-use-tbi -enable-objc-interop -sdk /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -I /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator -Isystem /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator -F /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/Developer/Library/Frameworks -no-color-diagnostics -Xcc -fno-color-diagnostics -g -debug-info-format\=dwarf -dwarf-version\=5 -module-cache-path /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -swift-version 6 -enforce-exclusivity\=checked -O -D SWIFT_PACKAGE -D SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -D Xcode -serialize-debugging-options -const-gather-protocols-file /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities_const_extract_protocols.json -enable-experimental-feature DebugDescriptionMacro -empty-abi-descriptor -validate-clang-modules-once -clang-build-session-file /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode -file-compilation-dir /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode -Xcc -ivfsstatcache -Xcc /Users/runner/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C57-dc75598d0054f22ec865fa860f139d72e244bd9a5feaf902f95f61bf06266e52.sdkstatcache -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/swift-overrides.hmap -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Products/Release-iphonesimulator/include -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/DerivedSources-normal/arm64 -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/DerivedSources/arm64 -Xcc -I/Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/DerivedSources -Xcc -DSWIFT_PACKAGE -no-auto-bridging-header-chaining -module-name InscribeUtilities -package-name notes_app_build -frontend-parseable-output -disable-clang-spi -target-sdk-version 26.2 -target-sdk-name iphonesimulator26.2 -clang-target arm64-apple-ios26.2-simulator -in-process-plugin-server-path /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/libSwiftInProcPluginServer.dylib -enable-default-cmo -num-threads 3 -o /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/HapticManager.o -o /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/Logger.o -o /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/PerformanceMonitor.o -index-unit-output-path /Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/HapticManager.o -index-unit-output-path /Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/Logger.o -index-unit-output-path /Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/PerformanceMonitor.o
+SwiftCompile normal arm64 Compiling\ CanvasCoordinateSystem.swift,\ PageCoordinateSystem.swift,\ BezierPathBuilder.swift,\ InkPoint.swift,\ ShapeRecognizer.swift,\ Stroke.swift,\ KalmanFilter.swift,\ StrokePredictor.swift,\ PalmRejectionFilter.swift,\ TouchCoalescer.swift,\ TouchEngine.swift,\ TouchPredictor.swift,\ UndoGroup.swift,\ UndoManager.swift,\ UndoableAction.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Core/CoordinateSpace/CanvasCoordinateSystem.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Core/CoordinateSpace/PageCoordinateSystem.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Core/Geometry/BezierPathBuilder.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Core/Geometry/InkPoint.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Core/Geometry/ShapeRecognizer.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Core/Geometry/Stroke.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Core/PredictionEngine/KalmanFilter.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Core/PredictionEngine/StrokePredictor.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Core/TouchEngine/PalmRejectionFilter.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Core/TouchEngine/TouchCoalescer.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Core/TouchEngine/TouchEngine.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Core/TouchEngine/TouchPredictor.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Core/UndoManager/UndoGroup.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Core/UndoManager/UndoManager.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Core/UndoManager/UndoableAction.swift /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_DarwinFoundation3.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_DarwinFoundation2.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Foundation.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/DataDetection.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Spatial.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/SwiftUI.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Darwin.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/FileProvider.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/System.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_Concurrency.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_Builtin_float.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/UniformTypeIdentifiers.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreText.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Observation.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Symbols.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_DarwinFoundation1.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreImage.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreVideo.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Swift.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/OSLog.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/DeveloperToolsSupport.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_StringProcessing.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreData.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreTransferable.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/SwiftUICore.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/QuartzCore.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Accessibility.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/ObjectiveC.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreFoundation.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Metal.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Dispatch.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Combine.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/UIKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreGraphics.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/XPC.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/os.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/simd.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/sys_types-BQTJ62IU290IABNJGMG5ZP8S7.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Symbols-AQVV761MPMZS1P99GXC689CC0.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ptrcheck-AS5ID6X86QU16XCIB4HX80NDN.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/IOSurface-9DMGC3YDHV6HQPBUCHP004D6Y.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreVideo-1GF0W6WVK356698UT6ZNFN3V4.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdatomic-9WBBMF4HVX12313F4WS98TSDG.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Spatial-4LAK5750SHNHONWIEAPSV10OX.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Accessibility-E0EURQG2AN0JRVLFUZWIK4SZJ.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os-BEFDQ05H6ZMJH4NEDQLXAIAKF.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ImageIO-EK41HFHBH1F2CSVYZ8DKHPT5Z.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/XPC-CQKESFUPQ3ZJN914KX3O3INJE.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_float-3I1G6AABLNAT97CYPW8MWBOR1.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/MachO-AF49KBBOIXFD6T09AJTMPAJYM.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreFoundation-1Y1IXKONCQWM8A1DR90MVJLBH.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Dispatch-AUOJW6S7SXVGJXE0I3C8ZE7U9.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_inttypes-JEYB3TX9FQXORFVHO1GJW9KT.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/OpenGLES-D983LFNK12OFMRB8BNWZCY54F.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/SwiftUI-BTNO5KNPED426KAQOOVH9E7ES.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_AvailabilityInternal-19AIG9XJT68PA48LH9PTFCWW1.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/SwiftShims-7KK7NHIGBLK849ZAK88I3C6TN.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_limits-8RKLXT889DAKZQRGQJ9UE5Y8A.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CFNetwork-ER4531QAO4ADFEMB5D7951UDI.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreGraphics-Q868IRQQIOG9W9O806XMP0Y0.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdint-40M6C3KLHXP8E5NNLQ9FFDNFC.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdarg-1JK4HPKL0DADYMNM82ES19891.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreImage-5XVSCD18TFCYVDF0N5X1CVIJA.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreText-F534L7650S4G60JC4UA5JPEIP.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UniformTypeIdentifiers-AXLCSCCU01QWGMTV7LD6WD5B3.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/DeveloperToolsSupport-5JOYH86J18660Z4WO01JODF2X.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Foundation-19I4HYDKWQNIASQL58HMNFQLZ.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/OSLog-7FSDN4209YA6CJ0NHAHTJ68V3.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Metal-3WLTRSHE9SR211NFZF60Q94QP.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_intrinsics-BK8THYUOEDGKS48FQSLLRL4AP.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os_object-DZUFPJFREIQP7YPF10000W0MG.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation2-5TTSVEL7MHBWTHHGCNN375MC8.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_SwiftConcurrencyShims-4IMUKH86Y3HVF75M6AOETV9K8.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation1-817PNXJ7439J9BDKJIJSYI43Z.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreTransferable-9JTSL5DXS805EE1DQLVXZIHW4.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UserNotifications-1KPQZTO8IUVRX24U2G9PR8JCB.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Security-3E2URSJ7IA0688RTW6IR7FQN8.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/DataDetection-AVLH1IZCP4OVMHU41A2CVIIF7.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/QuartzCore-8J0JSV49TH5F0TA2Z9B736LQ1.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UIUtilities-JIR6CAVXSF690VX1TPBKMH9X.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os_workgroup-397KBOGIES5JKDD9Z3T1JID9T.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ObjectiveC-10B745AD1B0X30ALAZESXBQVY.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Darwin-6E0N143IXAQMD2OW50G894S4T.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/SwiftUICore-32GWRXSD4Z889SO1EWR1LFS0P.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreData-80GV9FY1DW4ODCRDFTHWGPU0D.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/FileProvider-86KPK6ITN0NQGXJ6Q1L52MBHN.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ptrauth-1GNBJZII7VO4PSAMGM74I2DI5.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation3-3MPPJ3VHH27EHW39CZ9EAB47C.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdbool-6FDSBKWPHKY9HYGJ71HPI347V.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/simd-DHLU0A9S9EDH1GYQ0A3LUIUQO.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_tgmath-38AQ5B449RFOJDP9ZGOR5ICYQ.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UIKit-3ED3W2BQE39KE0CW8R6FDPW8N.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stddef-9AZ835KKWJSTG30EDRW9X8W0S.pcm /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeCore.build/Objects-normal/arm64/InscribeCore-dependencies-1.json (in target 'InscribeCore' from project 'Inscribe')
+CompileSwift normal arm64 (in target 'InscribeCore' from project 'Inscribe')
+    cd /Users/runner/work/Notes-App-Build/Notes-App-Build/.swiftpm/xcode
+
+
+** BUILD FAILED **
+
+
+The following build commands failed:
+	CompileSwift normal arm64 (in target 'InscribeUtilities' from project 'Inscribe')
+	SwiftCompile normal arm64 Compiling\ HapticManager.swift,\ Logger.swift,\ PerformanceMonitor.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/HapticManager.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/Logger.swift /Users/runner/work/Notes-App-Build/Notes-App-Build/Inscribe/Utilities/PerformanceMonitor.swift /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreText.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreImage.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_Builtin_float.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Darwin.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Foundation.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreFoundation.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/os.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreVideo.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Combine.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreTransferable.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_StringProcessing.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Metal.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_DarwinFoundation3.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/UIKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/CoreGraphics.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/SwiftUICore.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/DeveloperToolsSupport.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_DarwinFoundation2.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/System.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/DataDetection.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/ObjectiveC.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/XPC.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Observation.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/QuartzCore.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/FileProvider.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/OSLog.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Dispatch.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_Concurrency.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Accessibility.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Symbols.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/_DarwinFoundation1.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/UniformTypeIdentifiers.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.2/Swift.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Security-3E2URSJ7IA0688RTW6IR7FQN8.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/QuartzCore-8J0JSV49TH5F0TA2Z9B736LQ1.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/SwiftUICore-32GWRXSD4Z889SO1EWR1LFS0P.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreGraphics-Q868IRQQIOG9W9O806XMP0Y0.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Symbols-AQVV761MPMZS1P99GXC689CC0.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UniformTypeIdentifiers-AXLCSCCU01QWGMTV7LD6WD5B3.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/XPC-CQKESFUPQ3ZJN914KX3O3INJE.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/FileProvider-86KPK6ITN0NQGXJ6Q1L52MBHN.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Darwin-6E0N143IXAQMD2OW50G894S4T.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation1-817PNXJ7439J9BDKJIJSYI43Z.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdint-40M6C3KLHXP8E5NNLQ9FFDNFC.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/OpenGLES-D983LFNK12OFMRB8BNWZCY54F.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/DataDetection-AVLH1IZCP4OVMHU41A2CVIIF7.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Foundation-19I4HYDKWQNIASQL58HMNFQLZ.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CFNetwork-ER4531QAO4ADFEMB5D7951UDI.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_inttypes-JEYB3TX9FQXORFVHO1GJW9KT.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stddef-9AZ835KKWJSTG30EDRW9X8W0S.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Metal-3WLTRSHE9SR211NFZF60Q94QP.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ImageIO-EK41HFHBH1F2CSVYZ8DKHPT5Z.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreText-F534L7650S4G60JC4UA5JPEIP.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_AvailabilityInternal-19AIG9XJT68PA48LH9PTFCWW1.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdarg-1JK4HPKL0DADYMNM82ES19891.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/SwiftShims-7KK7NHIGBLK849ZAK88I3C6TN.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Accessibility-E0EURQG2AN0JRVLFUZWIK4SZJ.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreFoundation-1Y1IXKONCQWM8A1DR90MVJLBH.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UserNotifications-1KPQZTO8IUVRX24U2G9PR8JCB.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os_object-DZUFPJFREIQP7YPF10000W0MG.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ptrauth-1GNBJZII7VO4PSAMGM74I2DI5.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os_workgroup-397KBOGIES5JKDD9Z3T1JID9T.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/OSLog-7FSDN4209YA6CJ0NHAHTJ68V3.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreVideo-1GF0W6WVK356698UT6ZNFN3V4.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/MachO-AF49KBBOIXFD6T09AJTMPAJYM.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreImage-5XVSCD18TFCYVDF0N5X1CVIJA.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ObjectiveC-10B745AD1B0X30ALAZESXBQVY.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation2-5TTSVEL7MHBWTHHGCNN375MC8.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_float-3I1G6AABLNAT97CYPW8MWBOR1.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/DeveloperToolsSupport-5JOYH86J18660Z4WO01JODF2X.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os-BEFDQ05H6ZMJH4NEDQLXAIAKF.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdatomic-9WBBMF4HVX12313F4WS98TSDG.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_SwiftConcurrencyShims-4IMUKH86Y3HVF75M6AOETV9K8.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/sys_types-BQTJ62IU290IABNJGMG5ZP8S7.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreTransferable-9JTSL5DXS805EE1DQLVXZIHW4.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UIKit-3ED3W2BQE39KE0CW8R6FDPW8N.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/IOSurface-9DMGC3YDHV6HQPBUCHP004D6Y.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdbool-6FDSBKWPHKY9HYGJ71HPI347V.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ptrcheck-AS5ID6X86QU16XCIB4HX80NDN.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_limits-8RKLXT889DAKZQRGQJ9UE5Y8A.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation3-3MPPJ3VHH27EHW39CZ9EAB47C.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Dispatch-AUOJW6S7SXVGJXE0I3C8ZE7U9.pcm /Users/runner/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UIUtilities-JIR6CAVXSF690VX1TPBKMH9X.pcm /Users/runner/Library/Developer/Xcode/DerivedData/Notes-App-Build-eqwjpsrzkmsgiqasxebeljocargc/Build/Intermediates.noindex/Inscribe.build/Release-iphonesimulator/InscribeUtilities.build/Objects-normal/arm64/InscribeUtilities-dependencies-1.json (in target 'InscribeUtilities' from project 'Inscribe')
+	Building workspace Notes-App-Build with scheme Inscribe and configuration Release
+(3 failures)
+Error: Process completed with exit code 65.
+
+
+
+
+
+
+Run xcrun simctl list devices available
+== Devices ==
+-- iOS 18.5 --
+    iPhone 16 Pro (E0086334-B2EA-4DFC-B84E-BE9F3A53EF95) (Shutdown)
+    iPhone 16 Pro Max (60E06299-0D57-459C-B661-8001490927CF) (Shutdown)
+    iPhone 16e (B5FEBE5C-0315-40D9-943F-0545005836CC) (Shutdown)
+    iPhone 16 (1BB38806-AA44-4C26-8547-1D3E8B811AB1) (Shutdown)
+    iPhone 16 Plus (BA867F4F-21AC-4DE1-94D9-06807C404279) (Shutdown)
+    iPhone SE (3rd generation) (91B2BBB3-82D3-45CD-A4F5-CD14A3856FDC) (Shutdown)
+    iPad Pro 11-inch (M4) (4D7BD842-B103-4BB6-8B5A-7F958ED5BF14) (Shutdown)
+    iPad Pro 13-inch (M4) (7A7569D4-5E48-407C-8086-EF9D2C3D6D22) (Shutdown)
+    iPad mini (A17 Pro) (E903EE29-8693-44AE-930B-BDA760BF119A) (Shutdown)
+    iPad (A16) (4B119DB9-FB52-4E5D-867B-D6E7CF92F281) (Shutdown)
+    iPad Air 13-inch (M3) (DEDA176E-A385-4435-8A5B-45AE8C24E3D2) (Shutdown)
+    iPad Air 11-inch (M3) (69C76EBD-409D-4593-BF48-22419143B8CF) (Shutdown)
+    iPad Air 11-inch (M2) (2AB2CF0A-607C-4B8D-B3AA-434A977141BE) (Shutdown)
+    iPad Air 13-inch (M2) (626814C4-2DFD-468E-89E1-AC7675C2CC69) (Shutdown)
+    iPad (10th generation) (98A59DFB-E203-4649-BF23-6465B404777E) (Shutdown)
+-- iOS 18.6 --
+    iPhone 16 Pro (8C8BD00F-8891-4618-B5F5-924FAC4C8E86) (Shutdown)
+    iPhone 16 Pro Max (0EFEC266-06B2-450B-822F-6E071B709A6C) (Shutdown)
+    iPhone 16e (1A3EA572-A7B0-46C9-BA52-0F2A7E07D9CB) (Shutdown)
+    iPhone 16 (4E3FE264-3028-4184-AFC5-1A75F97CFD1C) (Shutdown)
+    iPhone 16 Plus (5BC17D70-333F-4C07-A5FF-371967E7AC6D) (Shutdown)
+    iPhone SE (3rd generation) (E7ACE7D0-7544-4827-AA9E-3682608BB324) (Shutdown)
+    iPad Pro 11-inch (M4) (3154439F-1E88-4743-BC60-6E629D89A32C) (Shutdown)
+    iPad Pro 13-inch (M4) (11EC70C1-9743-47CF-826F-1F68F4D8350D) (Shutdown)
+    iPad (A16) (227F1222-1873-4AAB-AB66-783816BC2639) (Shutdown)
+    iPad Air 13-inch (M3) (1962BF84-AB99-4083-ABA7-F56AF4DFD704) (Shutdown)
+    iPad Air 11-inch (M3) (95B28533-453C-44F5-AF32-A7D5B69377B2) (Shutdown)
+    iPad Air 11-inch (M2) (FFA952B5-4406-44AD-9F38-2FDBC6CD3FB0) (Shutdown)
+    iPad Air 13-inch (M2) (718A8021-E0A6-421F-856A-661F4C239BB1) (Shutdown)
+    iPad mini (A17 Pro) (ECA58DC5-BC66-465D-8860-998078571BFF) (Shutdown)
+    iPad (10th generation) (DD6FA173-E5EC-4591-91FA-8040AFA8A644) (Shutdown)
+-- iOS 26.0 --
+    iPhone 17 Pro (E396A2E9-2212-4721-9061-1ECCDD3F86C9) (Shutdown)
+    iPhone 17 Pro Max (18240A18-8947-46CD-A3EE-8EAA18C37BFA) (Shutdown)
+    iPhone Air (8708E725-ADBE-41F0-8285-DEBA2AE8DF33) (Shutdown)
+    iPhone 17 (4C138E01-581B-40E9-B6B7-40BDC385E4B1) (Shutdown)
+    iPhone 16 Pro (9B3C5020-2D3E-48A3-9AD4-CFA25C546F21) (Shutdown)
+    iPhone 16 Pro Max (13612E90-9B4E-4A8A-AFCA-ADC0BA9CB0F5) (Shutdown)
+    iPhone 16e (C23C65C7-DAD1-4777-BFAA-AE41F923294B) (Shutdown)
+    iPhone 16 (54021D55-A724-4B99-83A1-F10E6CDD682A) (Shutdown)
+    iPhone 16 Plus (17341502-7345-4A35-9140-7C80CAC49F32) (Shutdown)
+    iPhone SE (3rd generation) (9BE985DA-D3B6-466D-BFC7-582EECBA53AA) (Shutdown)
+    iPad Pro 13-inch (M5) (7D719339-50B7-43C6-9CF3-77F2EE1BFB18) (Shutdown)
+    iPad Pro 11-inch (M5) (8F57604E-0B10-455F-A639-C659CEDBF66B) (Shutdown)
+    iPad Pro 11-inch (M4) (58E21CD5-8DF7-40E9-BE11-A8D14614FAED) (Shutdown)
+    iPad Pro 13-inch (M4) (2000F663-88D8-4F29-8557-7CE709D8142B) (Shutdown)
+    iPad (A16) (910CE1F9-A59E-4D18-B852-1C42B9821527) (Shutdown)
+    iPad Air 13-inch (M3) (AD50E55F-27CC-45C4-A5AF-B03C43226376) (Shutdown)
+    iPad Air 11-inch (M2) (F62788C8-387A-4F32-BACD-39FC46B83AD9) (Shutdown)
+    iPad Air 13-inch (M2) (B8EA4975-B4E6-4E86-9BF4-31F0C083E330) (Shutdown)
+    iPad mini (A17 Pro) (DE5535AB-4E42-4AE8-AD42-749F0D859B3D) (Shutdown)
+    iPad Air 11-inch (M3) (2C411895-6D01-4A4A-871C-F796AF53D2FB) (Shutdown)
+    iPad (10th generation) (2D97D04E-88E7-4F99-8F13-61CB19FAB9DA) (Shutdown)
+-- iOS 26.1 --
+    iPhone 17 Pro (32E4328D-B3C4-4B3B-B361-806B7A94AE69) (Shutdown)
+    iPhone 17 Pro Max (802C5CCA-4C07-4FEC-AB5E-66F0C72D8DC1) (Shutdown)
+    iPhone Air (A6A37F01-E1BC-43DC-93E4-65204B85C447) (Shutdown)
+    iPhone 17 (CB8E7A45-15A4-4F69-BCE6-2D79F06F028E) (Shutdown)
+    iPhone 16 Pro (3681C3C0-15C2-4FF9-8741-74797EF1F7D8) (Shutdown)
+    iPhone 16 Pro Max (D4468A89-9D58-4CE4-8327-C1A36B2838A3) (Shutdown)
+    iPhone 16e (DFA5298F-F0B7-4534-8E35-E20E348511C0) (Shutdown)
+    iPhone 16 (F4E186E0-B992-4D7D-9397-E6F38053F911) (Shutdown)
+    iPhone 16 Plus (D8722658-88A6-475F-8D8A-BC54CD50F419) (Shutdown)
+    iPhone SE (3rd generation) (C9AA05F8-597F-4212-8E71-A1278FB5CF74) (Shutdown)
+    iPad Pro 13-inch (M5) (A708919D-1888-4791-BBFF-6FFD5645664C) (Shutdown)
+    iPad Pro 11-inch (M5) (DF0FC948-EF58-4903-A431-2D66F5BD8E5F) (Shutdown)
+    iPad Pro 11-inch (M4) (2D74CDBA-01BE-46CA-A011-7983AB9B827A) (Shutdown)
+    iPad Pro 13-inch (M4) (9640651F-5072-40F0-A8C3-128489A61101) (Shutdown)
+    iPad mini (A17 Pro) (C3969180-FEC8-4DD6-9CD8-8A1931EC408D) (Shutdown)
+    iPad (A16) (8AE6040B-3824-426B-882C-8A67232EC815) (Shutdown)
+    iPad Air 13-inch (M3) (F9EEFBF3-D35A-4020-9048-2F5C94DE8A15) (Shutdown)
+    iPad Air 11-inch (M3) (2DB71303-4659-404D-A4F2-0DD1247FCDB8) (Shutdown)
+    iPad Air 11-inch (M2) (AFA018C0-754A-4B7E-AE63-338498AA4393) (Shutdown)
+    iPad Air 13-inch (M2) (F0725D4A-E690-4BCC-AE34-3FC10727B978) (Shutdown)
+    iPad (10th generation) (96F27664-07CE-424A-9D04-B60B7FCD8C7A) (Shutdown)
+-- iOS 26.2 --
+    iPhone 17 Pro (D0764F80-06F7-4457-BE8A-BFC365DC10D1) (Shutdown)
+    iPhone 17 Pro Max (B3DB033B-5EF7-4F88-9EE8-6B92BFF07E46) (Shutdown)
+    iPhone Air (D95C9A90-72FF-496F-90D4-5FBD64D4D8F4) (Shutdown)
+    iPhone 17 (DFCB9A26-545F-405E-94EC-BEA9148D0344) (Shutdown)
+    iPhone 16 Pro (B7463790-7F4D-446E-8FD5-FDAD6105140F) (Shutdown)
+    iPhone 16 Pro Max (91AADD31-BD47-430B-A9CB-ADA415413506) (Shutdown)
+    iPhone 16e (1650307E-D74F-4E1A-802E-ADD933E70C56) (Shutdown)
+    iPhone 16 (4581F4AB-A341-4E83-A57D-6BC8D4AE5DBA) (Shutdown)
+    iPhone 16 Plus (8E2CCFCD-E5AF-49C7-8506-04E7F31B142C) (Shutdown)
+    iPhone SE (3rd generation) (795BF2BC-287A-470A-A3CF-5FE6344460F9) (Shutdown)
+    iPad Pro 13-inch (M5) (23A4F5D3-14EA-4AEB-ABEB-6C68FE6BF99C) (Shutdown)
+    iPad Pro 11-inch (M5) (7513ECA6-7FD6-4F7E-BA9F-9D832C17AE88) (Shutdown)
+    iPad Pro 11-inch (M4) (10BB2F9D-48A7-466F-BFC7-BE8AD222379F) (Shutdown)
+    iPad Pro 13-inch (M4) (78FFF19A-4D52-410A-9EA4-27B3E59BBBE4) (Shutdown)
+    iPad (A16) (C75FC904-38D0-4428-B67E-D8E12E24487A) (Shutdown)
+    iPad Air 13-inch (M3) (545A1C8D-4A14-498F-BD3C-50C11B2DCB97) (Shutdown)
+    iPad Air 11-inch (M3) (16B28D47-A3FE-49CF-957F-4850AF9650FC) (Shutdown)
+    iPad Air 11-inch (M2) (D9849F3B-BA09-46EE-BABA-7895168D8B88) (Shutdown)
+    iPad Air 13-inch (M2) (7FD37D3D-65FF-43A8-B021-8466FF14F941) (Shutdown)
+    iPad mini (A17 Pro) (6326A4CF-B77D-42CD-8C84-2260E14287BE) (Shutdown)
+    iPad (10th generation) (7AC9DB90-50EE-41C4-88C4-184AC5C09E9A) (Shutdown)
+-- tvOS 18.5 --
+    Apple TV 4K (3rd generation) (D5CDEC6B-9231-47A8-B9DA-FC6A4A8C517C) (Shutdown)
+    Apple TV 4K (3rd generation) (at 1080p) (10D619DA-664F-4DAE-A0FE-AE69F2947EB6) (Shutdown)
+    Apple TV (858BDAF6-9D3A-4C3F-B559-D25EFD1F8502) (Shutdown)
+-- tvOS 26.1 --
+    Apple TV 4K (3rd generation) (1280E218-68AF-42AD-9331-6A2164F2891F) (Shutdown)
+    Apple TV 4K (3rd generation) (at 1080p) (53095564-4D43-4963-80E0-864612B40077) (Shutdown)
+    Apple TV (99EA3E56-2B49-433E-93B0-1F0BF9DA1616) (Shutdown)
+-- tvOS 26.2 --
+    Apple TV 4K (3rd generation) (997C4E3B-DCAA-46DB-8D1C-1AE9524F602F) (Shutdown)
+    Apple TV 4K (3rd generation) (at 1080p) (853C30F0-78C0-4991-B27D-A5E45E4AEB2C) (Shutdown)
+    Apple TV (8AA53BFC-CDDA-44F4-B987-C2EA7B6DBADE) (Shutdown)
+-- watchOS 11.5 --
+    Apple Watch Series 10 (46mm) (450331EA-29F0-4E7D-BF23-55F4E0332215) (Shutdown)
+    Apple Watch Series 10 (42mm) (FD5FA53E-AD9F-457F-A0E0-2305EDEEA611) (Shutdown)
+    Apple Watch Ultra 2 (49mm) (0CC9D461-3F6B-4894-A651-B335C091FB09) (Shutdown)
+    Apple Watch SE (44mm) (2nd generation) (3D0AF1B8-4131-4C4A-AD18-4D3AE15E8717) (Shutdown)
+    Apple Watch SE (40mm) (2nd generation) (A2BDE7C9-6205-44B2-921B-EB4BA04315F1) (Shutdown)
+-- watchOS 26.1 --
+    Apple Watch Series 11 (46mm) (9FD5054D-5B37-4961-A801-D051AB0E70F2) (Shutdown)
+    Apple Watch Series 11 (42mm) (4085CB30-5160-4D53-9F60-A6FD8B0BAD2F) (Shutdown)
+    Apple Watch Series 10 (46mm) (F85A4128-B22D-4AD5-A1E6-5966279378A5) (Shutdown)
+    Apple Watch Series 10 (42mm) (704608A1-9DE3-424A-B3F5-4E566079E1EA) (Shutdown)
+    Apple Watch Ultra 3 (49mm) (10695085-FC0A-4B49-8547-AFF51EB0EC4C) (Shutdown)
+    Apple Watch Ultra 2 (49mm) (01311070-D294-4BAF-AC32-895201865937) (Shutdown)
+    Apple Watch SE 3 (44mm) (D876B882-FDCB-493E-8078-137760E5E753) (Shutdown)
+    Apple Watch SE 3 (40mm) (5C8C4230-9770-4606-B095-CB62CD1B722A) (Shutdown)
+    Apple Watch SE (44mm) (2nd generation) (E2D852CB-5136-4621-9A40-28A109B9F141) (Shutdown)
+    Apple Watch SE (40mm) (2nd generation) (D08F5537-AF89-4125-AAAD-30D5B39EB52E) (Shutdown)
+-- watchOS 26.2 --
+    Apple Watch Series 11 (46mm) (41839F24-FE61-4318-9222-A58691BD22FD) (Shutdown)
+    Apple Watch Series 11 (42mm) (AA8A9838-5C83-4D2E-ACE8-1861DF1CF401) (Shutdown)
+    Apple Watch Series 10 (46mm) (4E693F54-B1CB-409E-8139-4576FDE91458) (Shutdown)
+    Apple Watch Series 10 (42mm) (4842C31F-28C2-486B-9E7C-25E08C9D5DB6) (Shutdown)
+    Apple Watch Ultra 3 (49mm) (46D81B9F-8A08-42A0-B0B3-122E661197B3) (Shutdown)
+    Apple Watch Ultra 2 (49mm) (FF312D84-9AFE-48C9-ABB1-E7895EAD7C27) (Shutdown)
+    Apple Watch SE 3 (44mm) (90485266-6746-4E75-85F5-A575492840BA) (Shutdown)
+    Apple Watch SE 3 (40mm) (CE24E227-8E27-4442-A60E-162AEB39A371) (Shutdown)
+    Apple Watch SE (44mm) (2nd generation) (FF25C659-EC5C-4CA9-A9A8-234649A96BB3) (Shutdown)
+    Apple Watch SE (40mm) (2nd generation) (2EC1CC87-AD89-4368-9623-6C02E60296C8) (Shutdown)
+-- visionOS 2.3 --
+    Apple Vision Pro (0EAC1480-BFFC-4BD5-98E3-F58546FEBCB6) (Shutdown)
+-- visionOS 2.4 --
+    Apple Vision Pro (8B6E4E2E-FC74-4489-BE83-97AE47E2DA05) (Shutdown)
+-- visionOS 2.5 --
+    Apple Vision Pro (0B9E7FDF-03C5-4EC8-B767-FDD31924EA42) (Shutdown)
+-- visionOS 26.1 --
+    Apple Vision Pro (A6B709B1-5A93-4964-8836-121668E11390) (Shutdown)
+-- visionOS 26.2 --
+    Apple Vision Pro (BBB89DA2-6411-4DF0-8C3B-C1ABE2728513) (Shutdown)

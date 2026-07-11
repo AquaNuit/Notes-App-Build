@@ -117,8 +117,8 @@ public class TouchPredictor {
         let t1 = p2.timestamp - p1.timestamp
         let t2 = p3.timestamp - p2.timestamp
 
-        let velocity1 = t1 > 0 ? v1 / CGFloat(t1) : 0
-        let velocity2 = t2 > 0 ? v2 / CGFloat(t2) : 0
+        let velocity1: CGFloat = t1 > 0 ? v1 / CGFloat(t1) : 0
+        let velocity2: CGFloat = t2 > 0 ? v2 / CGFloat(t2) : 0
 
         // Weighted average (most recent has higher weight)
         return velocity1 * 0.3 + velocity2 * 0.7

@@ -23,7 +23,7 @@ public class StrokePredictor {
     public var minimumPointsForPrediction: Int = 3
 
     /// Confidence threshold for showing predictions
-    public var confidenceThreshold: Float = 0.3
+    public var confidenceThreshold: CGFloat = 0.3
 
     private var velocityHistory: [CGFloat] = []
     private var directionHistory: [CGFloat] = []
@@ -43,7 +43,7 @@ public class StrokePredictor {
         let recentPoints = Array(stroke.points.suffix(5))
         let velocity = calculateVelocity(from: recentPoints)
         let direction = calculateDirection(from: recentPoints)
-        let confidence = velocity.magnitude > 50 ? min(1.0, velocity.magnitude / 1000) : 0
+        let confidence: CGFloat = velocity.magnitude > 50 ? min(1.0, velocity.magnitude / 1000) : 0
 
         guard confidence >= confidenceThreshold else { return [] }
 
@@ -149,5 +149,9 @@ public class StrokePredictor {
         let last = points.last!
         let second = points[points.count - 2]
         return atan2(last.location.y - second.location.y, last.location.x - second.location.x)
+    }
+
+    private func sign(_ value: CGFloat) -> CGFloat {
+        value >= 0 ? 1 : -1
     }
 }

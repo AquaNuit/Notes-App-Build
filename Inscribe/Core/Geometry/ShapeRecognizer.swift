@@ -4,7 +4,7 @@ import Foundation
 // MARK: - ShapeClassification
 
 /// The type of shape a stroke has been classified as.
-public enum ShapeClassification: Equatable, Sendable {
+public indirect enum ShapeClassification: Equatable, Sendable {
     case line
     case circle
     case ellipse

@@ -21,20 +21,20 @@ public protocol UndoableAction: AnyObject, Sendable {
 // MARK: - StrokeAction
 
 /// An undoable action specifically for stroke operations.
-public class StrokeAction: UndoableAction {
+public final class StrokeAction: UndoableAction {
     public let label: String
     public let strokeID: UUID
     public let pageID: UUID
 
-    private let undoBlock: () throws -> Void
-    private let redoBlock: () throws -> Void
+    private let undoBlock: @Sendable () throws -> Void
+    private let redoBlock: @Sendable () throws -> Void
 
     public init(
         label: String,
         strokeID: UUID,
         pageID: UUID,
-        undo: @escaping () throws -> Void,
-        redo: @escaping () throws -> Void
+        undo: @escaping @Sendable () throws -> Void,
+        redo: @escaping @Sendable () throws -> Void
     ) {
         self.label = label
         self.strokeID = strokeID
@@ -56,7 +56,7 @@ public class StrokeAction: UndoableAction {
 
 /// Combines multiple actions into a single undoable group.
 /// Useful for operations like "Move Selection" (remove + add strokes at new positions).
-public class CompositeAction: UndoableAction {
+public final class CompositeAction: UndoableAction {
     public let label: String
     private var actions: [UndoableAction]
 
